@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NHẬT MINH marcom | Bio Link</title>
+    <meta name="description" content="Danh thiếp điện tử của NHẬT MINH marcom. Kết nối và khám phá các khóa học AI miễn phí.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Font: Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Image -->
+        <header class="header">
+            <img src="assets/background.jpg" alt="Background" class="bg-image">
+        </header>
+
+        <!-- Profile Info -->
+        <section class="profile-section">
+            <div class="avatar-wrapper animate delay-1">
+                <img src="assets/avatar.png" alt="Avatar" class="avatar">
+            </div>
+            <h1 class="name-h1 animate delay-2">NHẬT MINH <span>marcom</span></h1>
+            
+            <!-- Social Icons -->
+            <div class="social-icons animate delay-3">
+                <a href="https://www.facebook.com/nhatminh1911/" target="_blank" class="social-btn">
+                    <img src="assets/icon%20facebook.png" alt="Facebook">
+                </a>
+                <a href="https://www.threads.com/@nhatminhmarcom" target="_blank" class="social-btn">
+                    <img src="assets/icon%20threads.png" alt="Threads">
+                </a>
+                <a href="https://zalo.me/0584556556" target="_blank" class="social-btn">
+                    <img src="assets/icon%20zalo.png" alt="Zalo">
+                </a>
+            </div>
+
+            <!-- Email Card -->
+            <div class="info-card animate delay-4">
+                <i data-lucide="mail" class="info-icon"></i>
+                <span class="info-text">hi@lnm.vn</span>
+                <i data-lucide="copy" class="info-icon" style="margin-left: auto; cursor: pointer;" onclick="copyEmail()"></i>
+            </div>
+        </section>
+
+        <!-- Links List -->
+        <div class="links-list animate delay-5">
+            <a href="#" class="link-item">
+                <span>Khám phá Website</span>
+                <i data-lucide="external-link"></i>
+            </a>
+            <a href="https://zalo.me/g/s7jxcab2lvaaqfnx6apl" target="_blank" class="link-item">
+                <span>Cộng đồng AI Việt Nam</span>
+                <i data-lucide="users"></i>
+            </a>
+            <a href="javascript:void(0)" onclick="alert('Đang cập nhật')" class="link-item">
+                <span>Tài liệu học tập</span>
+                <i data-lucide="book-open"></i>
+            </a>
+        </div>
+
+        <!-- Sticky Footer -->
+        <footer class="footer-nav">
+            <a href="#" class="nav-item" id="share-btn">
+                <i data-lucide="share" class="nav-icon"></i>
+                <span>Chia sẻ</span>
+            </a>
+            
+            <div class="qr-btn" id="qr-open">
+                <i data-lucide="qr-code"></i>
+            </div>
+
+            <a href="#" class="nav-item">
+                <i data-lucide="download" class="nav-icon"></i>
+                <span>Lưu liên hệ</span>
+            </a>
+        </footer>
+    </div>
+
+    <!-- QR Modal -->
+    <div class="modal" id="qr-modal">
+        <div class="modal-content">
+            <h3>Quét mã QR</h3>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Để xem trên điện thoại hoặc chia sẻ</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://lnm.vn" alt="QR Code" class="qr-image">
+            <div class="close-modal" id="qr-close">Đóng</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        function copyEmail() {
+            navigator.clipboard.writeText('hi@lnm.vn');
+            alert('Đã sao chép email!');
+        }
+    </script>
+</body>
+</html>
