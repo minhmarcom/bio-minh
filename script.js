@@ -44,6 +44,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Save Contact (VCard) Logic
+    const saveBtn = document.getElementById('save-contact-btn');
+    saveBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const vcard = "BEGIN:VCARD\n" +
+                      "VERSION:3.0\n" +
+                      "FN:MINH marcom\n" +
+                      "TEL;TYPE=CELL:0584556556\n" +
+                      "END:VCARD";
+        
+        const blob = new Blob([vcard], { type: "text/vcard" });
+        const url = window.URL.createObjectURL(blob);
+        const newLink = document.createElement('a');
+        newLink.href = url;
+        newLink.setAttribute('download', 'MINH_marcom.vcf');
+        newLink.click();
+        window.URL.revokeObjectURL(url);
+    });
+
     // Add scroll effect to header
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
