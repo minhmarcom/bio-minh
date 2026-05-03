@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- DÁN URL GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ---
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCPhsQnHi0c2ACQzCAzbhIGKQ2jliUOiBmcrvQ1Daox9I1-5P_4dICGDY1LixRgbp9/exec"; 
+    // ------------------------------------------------
+
     const qrOpen = document.getElementById('qr-open');
     const qrClose = document.getElementById('qr-close');
     const qrModal = document.getElementById('qr-modal');
@@ -7,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentOpen = document.getElementById('payment-open');
     const paymentClose = document.getElementById('payment-close');
     const paymentModal = document.getElementById('payment-modal');
+    let paymentCheckInterval;
 
     // QR Modal Logic
     qrOpen.addEventListener('click', () => {
@@ -19,17 +24,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Payment Modal Logic
     paymentOpen.addEventListener('click', () => {
+        // Tạo mã giao dịch ngẫu nhiên
+        const txId = Math.floor(1000 + Math.random() * 9000);
+        const fullTxId = `PMT${txId}`;
+        document.getElementById('tx-code').innerText = txId;
+        
         paymentModal.classList.add('active');
+        resetPaymentUI();
+        startPaymentPolling(fullTxId);
     });
 
     paymentClose.addEventListener('click', () => {
         paymentModal.classList.remove('active');
+        stopPaymentPolling();
     });
+
+    function resetPaymentUI() {
+        document.getElementById('payment-status').style.display = 'block';
+        document.getElementById('payment-success').style.display = 'none';
+    }
+
+    function startPaymentPolling(txId) {
+        stopPaymentPolling();
+        paymentCheckInterval = setInterval(async () => {
+            try {
+                // Gọi Google Apps Script để kiểm tra thanh toán
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${txId}`);
+                const data = await response.json();
+                
+                if (data.paid) {
+                    showPaymentSuccess();
+                    stopPaymentPolling();
+                }
+            } catch (err) {
+                console.log('Checking payment status...');
+            }
+        }, 4000); // Check mỗi 4 giây để tránh quá tải Google
+    }
+
+    function stopPaymentPolling() {
+        if (paymentCheckInterval) clearInterval(paymentCheckInterval);
+    }
+
+    function showPaymentSuccess() {
+        document.getElementById('payment-status').style.display = 'none';
+        document.getElementById('payment-success').style.display = 'block';
+    }
 
     // Close on click outside
     window.addEventListener('click', (e) => {
         if (e.target === qrModal) qrModal.classList.remove('active');
-        if (e.target === paymentModal) paymentModal.classList.remove('active');
+        if (e.target === paymentModal) {
+            paymentModal.classList.remove('active');
+            stopPaymentPolling();
+        }
     });
 
     // Share Logic
