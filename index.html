@@ -134,25 +134,39 @@
                 </ul>
             </div>
 
-            <div style="text-align: center;">
-                <img src="assets/QR-Payment.jpg" alt="QR thanh toán" class="qr-image" style="width: 200px; max-width: 100%; border-radius: 12px; margin-bottom: 10px;">
-                <p style="margin-bottom: 5px;">Nội dung chuyển khoản (bắt buộc):</p>
-                <p style="font-size: 20px; color: #d63031;"><strong>PMT<span id="tx-code">0000</span> + SĐT của bạn</strong></p>
+            <div id="zalo-verify-step" style="text-align: center; margin-bottom: 20px;">
+                <p style="font-size: 14px; margin-bottom: 10px;">Vui lòng nhập số Zalo bạn dùng để tham gia Group:</p>
+                <input type="tel" id="user-zalo-phone" placeholder="Số điện thoại Zalo..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; margin-bottom: 10px; text-align: center;">
+                <button id="confirm-zalo-btn" class="btn-primary" style="width: 100%; margin-bottom: 0;">Tiếp tục thanh toán</button>
+            </div>
+
+            <div id="payment-details" style="display: none; text-align: center;">
+                <div id="dynamic-qr-container" style="margin-bottom: 20px;">
+                    <!-- QR sẽ được tạo tự động qua JS -->
+                    <img id="qr-code-img" src="" alt="QR thanh toán" style="width: 240px; max-width: 100%; border-radius: 12px; border: 1px solid #eee;">
+                </div>
+
+                <p style="margin-bottom: 10px; font-size: 14px; font-weight: 600;">Nội dung chuyển khoản (Bắt buộc đúng 100%):</p>
+                <div style="background: #f1f2f6; padding: 15px; border-radius: 10px; border: 2px dashed #0A84FF; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <span id="copy-text" style="font-size: 18px; color: #d63031; font-weight: 800;">NM0000 090xxxxxxx</span>
+                    <button id="copy-btn" style="background: #0A84FF; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">Sao chép</button>
+                </div>
 
                 <div id="payment-status" style="margin-top: 20px; padding: 15px; background: #FFF9DB; border-radius: 12px;">
                     <div class="loader" style="margin-bottom: 10px;"></div>
-                    <p style="font-size: 13px; color: #856404;">Đang chờ thanh toán... Đừng đóng trình duyệt nhé!</p>
+                    <p style="font-size: 13px; color: #856404;">Hệ thống đang chờ tiền vào tài khoản...</p>
                 </div>
 
                 <div id="payment-success" style="display: none; margin-top: 20px; padding: 20px; background: #D4EDDA; border-radius: 12px; border: 1px solid #C3E6CB;">
-                    <p style="color: #155724; font-weight: 700; margin-bottom: 10px;">🎉 Thanh toán thành công!</p>
+                    <p style="color: #155724; font-weight: 700; margin-bottom: 10px;">🎉 Đã nhận thanh toán!</p>
                     <a href="https://zalo.me/g/s7jxcab2lvaaqfnx6apl" target="_blank" class="btn-primary" style="background: #28a745; margin-bottom: 0;">VÀO GROUP NGAY</a>
                 </div>
+            </div>
 
-                <a href="https://zalo.me/0584556556" target="_blank" class="btn-primary" style="display: block; background: #0068FF; color: white; padding: 14px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 16px; margin-bottom: 0;">
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="https://zalo.me/0584556556" target="_blank" class="btn-primary" style="display: block; background: #0068FF; color: white; padding: 14px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 0;">
                     Hỗ trợ Zalo
                 </a>
-
                 <div class="close-modal" id="payment-close" style="margin-top: 12px; background: #eee; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; color: #333; display: inline-block;">
                     Đóng
                 </div>

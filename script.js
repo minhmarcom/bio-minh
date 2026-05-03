@@ -23,15 +23,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Payment Modal Logic
+    const confirmZaloBtn = document.getElementById('confirm-zalo-btn');
+    const zaloPhoneInput = document.getElementById('user-zalo-phone');
+    const zaloStep = document.getElementById('zalo-verify-step');
+    const paymentDetails = document.getElementById('payment-details');
+    const displayZaloPhone = document.getElementById('display-zalo-phone');
+
     paymentOpen.addEventListener('click', () => {
-        // Tạo mã giao dịch ngẫu nhiên
-        const txId = Math.floor(1000 + Math.random() * 9000);
-        const fullTxId = `PMT${txId}`;
-        document.getElementById('tx-code').innerText = txId;
-        
         paymentModal.classList.add('active');
         resetPaymentUI();
+    });
+
+    confirmZaloBtn.addEventListener('click', () => {
+        const phone = zaloPhoneInput.value.trim();
+        if (phone.length < 10) {
+            alert('Vui lòng nhập số điện thoại Zalo hợp lệ!');
+            return;
+        }
+
+        // Tạo mã giao dịch ngẫu nhiên
+        const txId = Math.floor(1000 + Math.random() * 9000);
+        const fullTxId = `NM${txId}`;
+        const memo = `${fullTxId} ${phone}`;
+        
+        // Cập nhật nội dung hiển thị
+        document.getElementById('copy-text').innerText = memo;
+
+        // Tạo QR động (VietQR) - MBBank: 202159
+        const qrUrl = `https://img.vietqr.io/image/MB-202159-compact.png?amount=199000&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
+        document.getElementById('qr-code-img').src = qrUrl;
+        
+        zaloStep.style.display = 'none';
+        paymentDetails.style.display = 'block';
         startPaymentPolling(fullTxId);
+    });
+
+    // Copy Logic
+    document.getElementById('copy-btn').addEventListener('click', () => {
+        const text = document.getElementById('copy-text').innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.getElementById('copy-btn');
+            btn.innerText = 'Đã chép!';
+            btn.style.background = '#28a745';
+            setTimeout(() => {
+                btn.innerText = 'Sao chép';
+                btn.style.background = '#0A84FF';
+            }, 2000);
+        });
     });
 
     paymentClose.addEventListener('click', () => {
@@ -40,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function resetPaymentUI() {
+        zaloStep.style.display = 'block';
+        paymentDetails.style.display = 'none';
+        zaloPhoneInput.value = '';
         document.getElementById('payment-status').style.display = 'block';
         document.getElementById('payment-success').style.display = 'none';
     }
