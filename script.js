@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- DÁN URL GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ---
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCPhsQnHi0c2ACQzCAzbhIGKQ2jliUOiBmcrvQ1Daox9I1-5P_4dICGDY1LixRgbp9/exec"; 
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3XJUA5LuNUjN0KAFNyWkONqblzqEXAvkmhHr1oWUMoF4iunE22pTpJigMbJfnvY4y/exec"; 
     // ------------------------------------------------
 
     const qrOpen = document.getElementById('qr-open');
