@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const qrModal = document.getElementById('qr-modal');
     const shareBtn = document.getElementById('share-btn');
 
+    const paymentOpen = document.getElementById('payment-open');
+    const paymentClose = document.getElementById('payment-close');
+    const paymentModal = document.getElementById('payment-modal');
+
     // QR Modal Logic
     qrOpen.addEventListener('click', () => {
         qrModal.classList.add('active');
@@ -13,10 +17,19 @@ document.addEventListener('DOMContentLoaded', () => {
         qrModal.classList.remove('active');
     });
 
-    qrModal.addEventListener('click', (e) => {
-        if (e.target === qrModal) {
-            qrModal.classList.remove('active');
-        }
+    // Payment Modal Logic
+    paymentOpen.addEventListener('click', () => {
+        paymentModal.classList.add('active');
+    });
+
+    paymentClose.addEventListener('click', () => {
+        paymentModal.classList.remove('active');
+    });
+
+    // Close on click outside
+    window.addEventListener('click', (e) => {
+        if (e.target === qrModal) qrModal.classList.remove('active');
+        if (e.target === paymentModal) paymentModal.classList.remove('active');
     });
 
     // Share Logic

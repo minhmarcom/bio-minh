@@ -68,6 +68,15 @@
 
         <!-- Links List -->
         <div class="links-list animate delay-5">
+            <!-- Premium Button -->
+            <a href="javascript:void(0)" id="payment-open" class="link-item premium-btn">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i data-lucide="sparkles"></i>
+                    <span>Cộng đồng Prompt (199k/năm)</span>
+                </div>
+                <i data-lucide="chevron-right"></i>
+            </a>
+
             <a href="https://zalo.me/g/s7jxcab2lvaaqfnx6apl" target="_blank" class="link-item">
                 <span>Cộng đồng AI Việt Nam</span>
                 <i data-lucide="users"></i>
@@ -107,6 +116,37 @@
             <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Để xem trên điện thoại hoặc chia sẻ</p>
             <img src="assets/QR-MINH%20BIO.png" alt="QR Code" class="qr-image">
             <div class="close-modal" id="qr-close">Đóng</div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content" style="max-width: 440px; width: 92%; text-align: left;">
+            <h2 style="font-size: 22px; margin-bottom: 15px; text-align: center; color: var(--text-main);">Tham gia cộng đồng Prompt AI – 199.000đ/năm</h2>
+            
+            <div style="background: #F8F9FA; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                <p style="font-weight: 700; margin-bottom: 10px; color: var(--primary-color);">Bạn sẽ nhận được:</p>
+                <ul style="list-style: none; font-size: 14px; line-height: 1.6;">
+                    <li style="margin-bottom: 8px; display: flex; gap: 8px;"><i data-lucide="check-circle-2" style="width: 16px; color: #28a745;"></i> Prompt mới cập nhật thường xuyên.</li>
+                    <li style="margin-bottom: 8px; display: flex; gap: 8px;"><i data-lucide="check-circle-2" style="width: 16px; color: #28a745;"></i> Prompt theo từng chủ đề: bán hàng, content, marketing, học tập, tự động hóa.</li>
+                    <li style="margin-bottom: 8px; display: flex; gap: 8px;"><i data-lucide="check-circle-2" style="width: 16px; color: #28a745;"></i> Hướng dẫn cách dùng prompt hiệu quả.</li>
+                    <li style="margin-bottom: 8px; display: flex; gap: 8px;"><i data-lucide="check-circle-2" style="width: 16px; color: #28a745;"></i> Quyền truy cập group cộng đồng trong 12 tháng.</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="assets/QR-Payment.jpg" alt="QR thanh toán" class="qr-image" style="width: 200px; max-width: 100%; border-radius: 12px; margin-bottom: 10px;">
+                <p style="margin-bottom: 5px; font-size: 14px;">Nội dung chuyển khoản:</p>
+                <p style="font-size: 18px; color: var(--primary-color);"><strong>TÊN ZALO + SĐT của bạn</strong></p>
+
+                <a href="https://zalo.me/0584556556" target="_blank" class="btn-primary" style="display: block; background: #0068FF; color: white; padding: 14px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 16px; margin-bottom: 0;">
+                    Tôi đã thanh toán – Nhắn Zalo
+                </a>
+
+                <div class="close-modal" id="payment-close" style="margin-top: 12px; background: #eee; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; color: #333; display: inline-block;">
+                    Đóng
+                </div>
+            </div>
         </div>
     </div>
 

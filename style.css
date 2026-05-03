@@ -207,6 +207,30 @@ body {
     color: var(--primary-color);
 }
 
+.premium-btn {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    color: white !important;
+    border: none !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.premium-btn i {
+    color: white !important;
+}
+
+.premium-btn:hover {
+    transform: scale(1.02) !important;
+    box-shadow: 0 6px 20px rgba(255, 165, 0, 0.5);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.01); }
+    100% { transform: scale(1); }
+}
+
 /* Sticky Footer */
 .footer-nav {
     position: fixed;
