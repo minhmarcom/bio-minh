@@ -36,6 +36,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentPhone = "";
 
+    // --- KIỂM TRA SĐT TRỰC TIẾP KHI NHẬP ---
+    const phoneError = document.getElementById('phone-error');
+    zaloPhoneInput.addEventListener('input', async () => {
+        const phone = zaloPhoneInput.value.trim();
+        phoneError.style.display = 'none';
+        confirmZaloBtn.disabled = false;
+
+        if (phone.length >= 10) {
+            try {
+                const res = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${phone}`);
+                const data = await res.json();
+                if (data.exists) {
+                    phoneError.style.display = 'block';
+                    confirmZaloBtn.disabled = true;
+                    confirmZaloBtn.style.opacity = '0.5';
+                } else {
+                    confirmZaloBtn.style.opacity = '1';
+                }
+            } catch (e) {}
+        }
+    });
+
     confirmZaloBtn.addEventListener('click', async () => {
         const name = document.getElementById('user-name').value.trim();
         const phone = zaloPhoneInput.value.trim();
@@ -45,28 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- KIỂM TRA SĐT ĐÃ ĐĂNG KÝ CHƯA ---
-        confirmZaloBtn.innerText = 'Đang kiểm tra...';
-        confirmZaloBtn.disabled = true;
+        // Kiểm tra lần cuối trước khi tạo QR
+        if (confirmZaloBtn.disabled) return;
         
-        try {
-            const checkRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${phone}`);
-            const checkData = await checkRes.json();
-            
-            if (checkData.exists) {
-                alert('Số điện thoại này đã đăng ký thành công trước đó. Vui lòng dùng số khác hoặc liên hệ hỗ trợ!');
-                confirmZaloBtn.innerText = 'Tiếp tục thanh toán';
-                confirmZaloBtn.disabled = false;
-                return;
-            }
-        } catch (err) {
-            console.log('Skip check duplicate');
-        }
-
-        confirmZaloBtn.innerText = 'Tiếp tục thanh toán';
-        confirmZaloBtn.disabled = false;
         currentPhone = phone;
-        
         // Tạo mã giao dịch ngẫu nhiên
         const txId = Math.floor(1000 + Math.random() * 9000);
         const fullTxId = `NM${txId}`;
