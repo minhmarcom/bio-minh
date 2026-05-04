@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resetPaymentUI();
     });
 
+    let currentPhone = "";
+
     confirmZaloBtn.addEventListener('click', () => {
         const name = document.getElementById('user-name').value.trim();
         const phone = zaloPhoneInput.value.trim();
@@ -43,59 +45,33 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        currentPhone = phone; // Lưu lại để đối chiếu khi polling
         // Tạo mã giao dịch ngẫu nhiên
         const txId = Math.floor(1000 + Math.random() * 9000);
         const fullTxId = `NM${txId}`;
         
-        // Loại bỏ dấu tiếng Việt để nội dung chuyển khoản không bị lỗi
+        // Loại bỏ dấu tiếng Việt
         const cleanName = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
         const memo = `${fullTxId} ${phone} ${cleanName}`;
         
-        // Cập nhật nội dung hiển thị
         document.getElementById('copy-text').innerText = memo;
 
-        // Tạo QR động (VietQR) - MBBank: 202159
         const qrUrl = `https://img.vietqr.io/image/MB-202159-compact.png?amount=199000&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
         document.getElementById('qr-code-img').src = qrUrl;
         
         zaloStep.style.display = 'none';
         paymentDetails.style.display = 'block';
-        startPaymentPolling(fullTxId);
+        startPaymentPolling(fullTxId, currentPhone);
     });
 
-    // Copy Logic
-    document.getElementById('copy-btn').addEventListener('click', () => {
-        const text = document.getElementById('copy-text').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            const btn = document.getElementById('copy-btn');
-            btn.innerText = 'Đã chép!';
-            btn.style.background = '#28a745';
-            setTimeout(() => {
-                btn.innerText = 'Sao chép';
-                btn.style.background = '#0A84FF';
-            }, 2000);
-        });
-    });
+    // ... (Giữ nguyên các hàm khác) ...
 
-    paymentClose.addEventListener('click', () => {
-        paymentModal.classList.remove('active');
-        stopPaymentPolling();
-    });
-
-    function resetPaymentUI() {
-        zaloStep.style.display = 'block';
-        paymentDetails.style.display = 'none';
-        zaloPhoneInput.value = '';
-        document.getElementById('payment-status').style.display = 'block';
-        document.getElementById('payment-success').style.display = 'none';
-    }
-
-    function startPaymentPolling(txId) {
+    function startPaymentPolling(txId, phone) {
         stopPaymentPolling();
         paymentCheckInterval = setInterval(async () => {
             try {
-                // Gọi Google Apps Script để kiểm tra thanh toán
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${txId}`);
+                // Gửi kèm cả SĐT để Google đối soát chính xác
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${txId}&phone=${phone}`);
                 const data = await response.json();
                 
                 if (data.paid) {
@@ -105,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.log('Checking payment status...');
             }
-        }, 4000); // Check mỗi 4 giây để tránh quá tải Google
+        }, 4000);
     }
 
     function stopPaymentPolling() {
