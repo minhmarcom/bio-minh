@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPhone = "";
     let currentName = "";
     let currentTxId = "";
+    let currentMemo = "";
     let phoneCheckRequest = 0;
 
     function normalizePhone(phone) {
@@ -96,8 +97,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return Number.isFinite(amount) ? amount : null;
     }
 
+    function normalizeMemo(memo) {
+        return String(memo || '').trim().replace(/\s+/g, ' ').toUpperCase();
+    }
+
+    function getPaymentMemo(data) {
+        const source = data.payment ?? data.transaction ?? data;
+        return source.memo ??
+            source.content ??
+            source.description ??
+            source.transferContent ??
+            source.transfer_content ??
+            source.transactionContent ??
+            source.transaction_content ??
+            source.addInfo ??
+            source.note ??
+            source["Nội dung"] ??
+            source["Noi dung"] ??
+            '';
+    }
+
+    function isExactMemo(data) {
+        return normalizeMemo(getPaymentMemo(data)) === normalizeMemo(currentMemo);
+    }
+
     function isExactPayment(data) {
-        return data.paid === true && getPaymentAmount(data) === EXPECTED_AMOUNT;
+        return data.paid === true && getPaymentAmount(data) === EXPECTED_AMOUNT && isExactMemo(data);
     }
 
     function showPaymentError(message) {
@@ -121,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPhone = "";
         currentName = "";
         currentTxId = "";
+        currentMemo = "";
         document.getElementById('user-name').value = '';
         zaloPhoneInput.value = '';
         phoneError.style.display = 'none';
@@ -136,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showInfoStep() {
         stopPaymentPolling();
         currentTxId = "";
+        currentMemo = "";
         copyText.innerText = 'NM0000 090xxxxxxx';
         copyBtn.innerText = 'Sao chép';
         qrCodeImg.removeAttribute('src');
@@ -224,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const memo = `${fullTxId} ${phone} ${cleanName}`;
 
         currentTxId = fullTxId;
+        currentMemo = memo;
         copyText.innerText = memo;
         qrCodeImg.src = `https://img.vietqr.io/image/MB-202159-compact.png?amount=${EXPECTED_AMOUNT}&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
         setWaitingPaymentState();
@@ -326,7 +354,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     id: txId,
                     phone,
                     name: currentName,
-                    amount: String(EXPECTED_AMOUNT)
+                    amount: String(EXPECTED_AMOUNT),
+                    memo: currentMemo
                 });
                 const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
                 const data = await response.json();
@@ -346,14 +375,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     if (!isExactPayment(data)) {
+                        const wrongStatus = getPaymentAmount(data) === EXPECTED_AMOUNT ? 'wrong_memo' : 'wrong_amount';
+                        const wrongMessage = wrongStatus === 'wrong_memo'
+                            ? 'Nội dung chuyển khoản chưa đúng 100% nên chưa thể mở link vào group.'
+                            : 'Số tiền chuyển khoản chưa đúng 199.000đ nên chưa thể mở link vào group.';
+
                         saveCustomerToSheet({
                             name: currentName,
                             phone,
                             txId,
-                            memo: copyText.innerText.trim(),
-                            status: 'wrong_amount'
+                            memo: currentMemo,
+                            status: wrongStatus
                         });
-                        showPaymentError('Số tiền chuyển khoản chưa đúng 199.000đ nên chưa thể mở link vào group.');
+                        showPaymentError(wrongMessage);
                         stopPaymentPolling();
                         return;
                     }
@@ -362,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         name: currentName,
                         phone,
                         txId,
-                        memo: copyText.innerText.trim(),
+                        memo: currentMemo,
                         status: 'paid'
                     });
                     showPaymentSuccess();
