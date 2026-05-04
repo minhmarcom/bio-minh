@@ -35,16 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     confirmZaloBtn.addEventListener('click', () => {
+        const name = document.getElementById('user-name').value.trim();
         const phone = zaloPhoneInput.value.trim();
-        if (phone.length < 10) {
-            alert('Vui lòng nhập số điện thoại Zalo hợp lệ!');
+        
+        if (!name || phone.length < 10) {
+            alert('Vui lòng nhập đầy đủ Họ tên và Số điện thoại hợp lệ!');
             return;
         }
 
         // Tạo mã giao dịch ngẫu nhiên
         const txId = Math.floor(1000 + Math.random() * 9000);
         const fullTxId = `NM${txId}`;
-        const memo = `${fullTxId} ${phone}`;
+        
+        // Loại bỏ dấu tiếng Việt để nội dung chuyển khoản không bị lỗi
+        const cleanName = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
+        const memo = `${fullTxId} ${phone} ${cleanName}`;
         
         // Cập nhật nội dung hiển thị
         document.getElementById('copy-text').innerText = memo;
