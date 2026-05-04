@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- DÁN URL GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ---
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx3XJUA5LuNUjN0KAFNyWkONqblzqEXAvkmhHr1oWUMoF4iunE22pTpJigMbJfnvY4y/exec"; 
+    const EXPECTED_AMOUNT = 199000;
+    const GROUP_URL = "https://zalo.me/g/o6nheqcgncsmefoyxtd1";
     // ------------------------------------------------
 
     const qrOpen = document.getElementById('qr-open');
@@ -27,32 +29,167 @@ document.addEventListener('DOMContentLoaded', () => {
     const zaloPhoneInput = document.getElementById('user-zalo-phone');
     const zaloStep = document.getElementById('zalo-verify-step');
     const paymentDetails = document.getElementById('payment-details');
-    const displayZaloPhone = document.getElementById('display-zalo-phone');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyText = document.getElementById('copy-text');
+    const qrCodeImg = document.getElementById('qr-code-img');
+    const paymentStatus = document.getElementById('payment-status');
+    const paymentSuccess = document.getElementById('payment-success');
+    const paymentError = document.getElementById('payment-error');
+    const paymentErrorText = document.getElementById('payment-error-text');
+    const groupLink = document.getElementById('group-link');
 
     paymentOpen.addEventListener('click', () => {
         paymentModal.classList.add('active');
         resetPaymentUI();
     });
 
+    paymentClose.addEventListener('click', () => {
+        paymentModal.classList.remove('active');
+        stopPaymentPolling();
+    });
+
+    groupLink.addEventListener('click', (e) => {
+        if (groupLink.getAttribute('aria-disabled') === 'true') {
+            e.preventDefault();
+        }
+    });
+
     let currentPhone = "";
+    let phoneCheckRequest = 0;
+
+    function normalizePhone(phone) {
+        return phone.replace(/\D/g, '');
+    }
+
+    async function checkPhoneExists(phone) {
+        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${encodeURIComponent(phone)}`);
+        const data = await response.json();
+        return Boolean(data.exists);
+    }
+
+    function setConfirmButtonDisabled(disabled) {
+        confirmZaloBtn.disabled = disabled;
+        confirmZaloBtn.style.opacity = disabled ? '0.5' : '1';
+    }
+
+    function getPaymentAmount(data) {
+        const source = data.payment ?? data.transaction ?? data;
+        const amountValue = source.amount ??
+            source.paidAmount ??
+            source.transferAmount ??
+            source.transfer_amount ??
+            source.transactionAmount ??
+            source.transaction_amount ??
+            source.money ??
+            source.value ??
+            source.creditAmount ??
+            source.credit_amount ??
+            source["Số tiền"] ??
+            source["So tien"];
+
+        if (amountValue === undefined || amountValue === null || amountValue === '') return null;
+        const amount = Number(String(amountValue).replace(/[^\d]/g, ''));
+        return Number.isFinite(amount) ? amount : null;
+    }
+
+    function isExactPayment(data) {
+        return data.paid === true && getPaymentAmount(data) === EXPECTED_AMOUNT;
+    }
+
+    function showPaymentError(message) {
+        paymentStatus.style.display = 'none';
+        paymentSuccess.style.display = 'none';
+        paymentErrorText.innerText = message;
+        paymentError.style.display = 'block';
+    }
+
+    function resetPaymentUI() {
+        stopPaymentPolling();
+        currentPhone = "";
+        document.getElementById('user-name').value = '';
+        zaloPhoneInput.value = '';
+        phoneError.style.display = 'none';
+        setConfirmButtonDisabled(false);
+        copyText.innerText = 'NM0000 090xxxxxxx';
+        copyBtn.innerText = 'Sao chép';
+        qrCodeImg.removeAttribute('src');
+        paymentStatus.style.display = 'block';
+        paymentSuccess.style.display = 'none';
+        paymentError.style.display = 'none';
+        paymentErrorText.innerText = '';
+        groupLink.href = 'javascript:void(0)';
+        groupLink.setAttribute('aria-disabled', 'true');
+        zaloStep.style.display = 'block';
+        paymentDetails.style.display = 'none';
+    }
+
+    function copySelectedText() {
+        let copied = false;
+        try {
+            copied = document.execCommand('copy');
+        } catch (e) {
+            copied = false;
+        }
+        return copied;
+    }
+
+    function copyFromVisibleMemo() {
+        const range = document.createRange();
+        const selection = window.getSelection();
+
+        range.selectNodeContents(copyText);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        const copied = copySelectedText();
+        selection.removeAllRanges();
+        return copied;
+    }
+
+    async function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (e) {}
+        }
+
+        const dummy = document.createElement('textarea');
+        dummy.value = text;
+        dummy.setAttribute('readonly', '');
+        dummy.style.position = 'fixed';
+        dummy.style.top = '0';
+        dummy.style.left = '0';
+        dummy.style.width = '1px';
+        dummy.style.height = '1px';
+        dummy.style.opacity = '0';
+        document.body.appendChild(dummy);
+        dummy.focus();
+        dummy.select();
+        dummy.setSelectionRange(0, dummy.value.length);
+
+        let copied = copySelectedText();
+
+        document.body.removeChild(dummy);
+        return copied || copyFromVisibleMemo();
+    }
 
     // --- KIỂM TRA SĐT TRỰC TIẾP KHI NHẬP ---
     const phoneError = document.getElementById('phone-error');
     zaloPhoneInput.addEventListener('input', async () => {
-        const phone = zaloPhoneInput.value.trim();
+        const phone = normalizePhone(zaloPhoneInput.value);
+        const requestId = ++phoneCheckRequest;
         phoneError.style.display = 'none';
-        confirmZaloBtn.disabled = false;
+        setConfirmButtonDisabled(false);
 
         if (phone.length >= 10) {
             try {
-                const res = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${phone}`);
-                const data = await res.json();
-                if (data.exists) {
+                const exists = await checkPhoneExists(phone);
+                if (requestId !== phoneCheckRequest) return;
+
+                if (exists) {
                     phoneError.style.display = 'block';
-                    confirmZaloBtn.disabled = true;
-                    confirmZaloBtn.style.opacity = '0.5';
-                } else {
-                    confirmZaloBtn.style.opacity = '1';
+                    setConfirmButtonDisabled(true);
                 }
             } catch (e) {}
         }
@@ -60,15 +197,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confirmZaloBtn.addEventListener('click', async () => {
         const name = document.getElementById('user-name').value.trim();
-        const phone = zaloPhoneInput.value.trim();
+        const phone = normalizePhone(zaloPhoneInput.value);
         
         if (!name || phone.length < 10) {
             alert('Vui lòng nhập đầy đủ Họ tên và Số điện thoại hợp lệ!');
             return;
         }
 
-        // Kiểm tra lần cuối trước khi tạo QR
-        if (confirmZaloBtn.disabled) return;
+        setConfirmButtonDisabled(true);
+
+        try {
+            const exists = await checkPhoneExists(phone);
+            if (exists) {
+                phoneError.style.display = 'block';
+                return;
+            }
+        } catch (e) {
+            alert('Chưa kiểm tra được số điện thoại. Vui lòng thử lại sau!');
+            setConfirmButtonDisabled(false);
+            return;
+        }
         
         currentPhone = phone;
         // Tạo mã giao dịch ngẫu nhiên
@@ -80,12 +228,25 @@ document.addEventListener('DOMContentLoaded', () => {
         
         document.getElementById('copy-text').innerText = memo;
 
-        const qrUrl = `https://img.vietqr.io/image/MB-202159-compact.png?amount=199000&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
+        const qrUrl = `https://img.vietqr.io/image/MB-202159-compact.png?amount=${EXPECTED_AMOUNT}&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
         document.getElementById('qr-code-img').src = qrUrl;
         
         zaloStep.style.display = 'none';
         paymentDetails.style.display = 'block';
         startPaymentPolling(fullTxId, currentPhone);
+    });
+
+    copyBtn.addEventListener('click', async () => {
+        const text = copyText.innerText.trim();
+
+        if (await copyToClipboard(text)) {
+            copyBtn.innerText = 'Đã sao chép';
+            setTimeout(() => {
+                copyBtn.innerText = 'Sao chép';
+            }, 1600);
+        } else {
+            alert('Không thể sao chép tự động. Vui lòng sao chép thủ công nội dung chuyển khoản.');
+        }
     });
 
     // ... (Giữ nguyên các hàm khác) ...
@@ -95,10 +256,27 @@ document.addEventListener('DOMContentLoaded', () => {
         paymentCheckInterval = setInterval(async () => {
             try {
                 // Gửi kèm cả SĐT để Google đối soát chính xác
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?id=${txId}&phone=${phone}`);
+                const params = new URLSearchParams({
+                    id: txId,
+                    phone,
+                    amount: String(EXPECTED_AMOUNT)
+                });
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
                 const data = await response.json();
                 
                 if (data.paid) {
+                    if (data.duplicatePhone || data.phoneExists) {
+                        showPaymentError('Số điện thoại này đã được đăng ký trước đó nên chưa thể duyệt vào group.');
+                        stopPaymentPolling();
+                        return;
+                    }
+
+                    if (!isExactPayment(data)) {
+                        showPaymentError('Số tiền chuyển khoản chưa đúng 199.000đ nên chưa thể mở link vào group.');
+                        stopPaymentPolling();
+                        return;
+                    }
+
                     showPaymentSuccess();
                     stopPaymentPolling();
                 }
@@ -109,12 +287,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function stopPaymentPolling() {
-        if (paymentCheckInterval) clearInterval(paymentCheckInterval);
+        if (paymentCheckInterval) {
+            clearInterval(paymentCheckInterval);
+            paymentCheckInterval = null;
+        }
     }
 
     function showPaymentSuccess() {
-        document.getElementById('payment-status').style.display = 'none';
-        document.getElementById('payment-success').style.display = 'block';
+        paymentStatus.style.display = 'none';
+        paymentError.style.display = 'none';
+        groupLink.href = GROUP_URL;
+        groupLink.removeAttribute('aria-disabled');
+        paymentSuccess.style.display = 'block';
     }
 
     // Close on click outside
