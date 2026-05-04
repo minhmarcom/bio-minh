@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentOpen = document.getElementById('payment-open');
     const paymentClose = document.getElementById('payment-close');
     const paymentModal = document.getElementById('payment-modal');
+    const enterpriseModal = document.getElementById('enterprise-modal');
     
     // Steps containers
     const benefitsStep = document.getElementById('benefits-step');
@@ -41,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let paymentCheckInterval;
 
+    const enterpriseOpen = document.getElementById('enterprise-open');
+    const enterpriseClose = document.getElementById('enterprise-close');
+
     paymentOpen.addEventListener('click', () => {
         paymentModal.classList.add('active');
         resetPaymentUI();
@@ -49,6 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
     paymentClose.addEventListener('click', () => {
         paymentModal.classList.remove('active');
         stopPaymentPolling();
+    });
+
+    enterpriseOpen.addEventListener('click', () => {
+        enterpriseModal.classList.add('active');
+    });
+
+    enterpriseClose.addEventListener('click', () => {
+        enterpriseModal.classList.remove('active');
     });
 
     startRegisterBtn.addEventListener('click', () => {
@@ -449,6 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
             paymentModal.classList.remove('active');
             stopPaymentPolling();
         }
+        if (e.target === enterpriseModal) enterpriseModal.classList.remove('active');
     });
 
     // Share Logic
