@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentPhone = "";
 
-    confirmZaloBtn.addEventListener('click', () => {
+    confirmZaloBtn.addEventListener('click', async () => {
         const name = document.getElementById('user-name').value.trim();
         const phone = zaloPhoneInput.value.trim();
         
@@ -45,12 +45,32 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        currentPhone = phone; // Lưu lại để đối chiếu khi polling
+        // --- KIỂM TRA SĐT ĐÃ ĐĂNG KÝ CHƯA ---
+        confirmZaloBtn.innerText = 'Đang kiểm tra...';
+        confirmZaloBtn.disabled = true;
+        
+        try {
+            const checkRes = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${phone}`);
+            const checkData = await checkRes.json();
+            
+            if (checkData.exists) {
+                alert('Số điện thoại này đã đăng ký thành công trước đó. Vui lòng dùng số khác hoặc liên hệ hỗ trợ!');
+                confirmZaloBtn.innerText = 'Tiếp tục thanh toán';
+                confirmZaloBtn.disabled = false;
+                return;
+            }
+        } catch (err) {
+            console.log('Skip check duplicate');
+        }
+
+        confirmZaloBtn.innerText = 'Tiếp tục thanh toán';
+        confirmZaloBtn.disabled = false;
+        currentPhone = phone;
+        
         // Tạo mã giao dịch ngẫu nhiên
         const txId = Math.floor(1000 + Math.random() * 9000);
         const fullTxId = `NM${txId}`;
         
-        // Loại bỏ dấu tiếng Việt
         const cleanName = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
         const memo = `${fullTxId} ${phone} ${cleanName}`;
         
