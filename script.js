@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         phoneError.style.display = 'none';
         setConfirmButtonDisabled(false);
         copyText.innerText = 'NM0000 090xxxxxxx';
-        copyBtn.innerText = 'Sao chép';
+        copyBtn.innerText = 'Sao chép nội dung';
         qrCodeImg.removeAttribute('src');
         setWaitingPaymentState();
         zaloStep.style.display = 'block';
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTxId = "";
         currentMemo = "";
         copyText.innerText = 'NM0000 090xxxxxxx';
-        copyBtn.innerText = 'Sao chép';
+        copyBtn.innerText = 'Sao chép nội dung';
         qrCodeImg.removeAttribute('src');
         setWaitingPaymentState();
         zaloStep.style.display = 'block';
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (await copyToClipboard(text)) {
             copyBtn.innerText = 'Đã sao chép';
             setTimeout(() => {
-                copyBtn.innerText = 'Sao chép';
+                copyBtn.innerText = 'Sao chép nội dung';
             }, 1600);
         } else {
             alert('Không thể sao chép tự động. Vui lòng sao chép thủ công nội dung chuyển khoản.');

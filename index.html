@@ -155,15 +155,23 @@
             </div>
 
             <div id="payment-details" style="display: none; text-align: center;">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px;">
+                    <div style="background: #EAF4FF; border: 1px solid #BBDFFF; padding: 14px; border-radius: 12px;">
+                        <p style="font-size: 12px; color: #43627A; font-weight: 700; margin-bottom: 4px;">Số tiền cần chuyển</p>
+                        <p style="font-size: 24px; color: #0A84FF; font-weight: 800; line-height: 1;">199.000đ</p>
+                    </div>
+                    <p style="font-size: 12px; color: #636e72; line-height: 1.5;">Vui lòng chuyển đúng số tiền và đúng nội dung bên dưới. Sai một trong hai thông tin, hệ thống sẽ không mở link group.</p>
+                </div>
+
                 <div id="dynamic-qr-container" style="margin-bottom: 20px;">
                     <!-- QR sẽ được tạo tự động qua JS -->
                     <img id="qr-code-img" src="" alt="QR thanh toán" style="width: 240px; max-width: 100%; border-radius: 12px; border: 1px solid #eee;">
                 </div>
 
-                <p style="margin-bottom: 10px; font-size: 14px; font-weight: 600;">Nội dung chuyển khoản (Bắt buộc đúng 100%):</p>
-                <div style="background: #f1f2f6; padding: 15px; border-radius: 10px; border: 2px dashed #0A84FF; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-                    <span id="copy-text" style="font-size: 18px; color: #d63031; font-weight: 800;">NM0000 090xxxxxxx</span>
-                    <button id="copy-btn" style="background: #0A84FF; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;">Sao chép</button>
+                <p style="margin-bottom: 10px; font-size: 14px; font-weight: 700;">Nội dung chuyển khoản bắt buộc</p>
+                <div style="background: #f1f2f6; padding: 15px; border-radius: 10px; border: 2px dashed #0A84FF; margin-bottom: 20px;">
+                    <span id="copy-text" style="display: block; overflow-wrap: anywhere; font-size: 18px; color: #d63031; font-weight: 800; line-height: 1.35; margin-bottom: 12px;">NM0000 090xxxxxxx</span>
+                    <button id="copy-btn" style="width: 100%; background: #0A84FF; color: white; border: none; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700;">Sao chép nội dung</button>
                 </div>
 
                 <div id="payment-status" style="margin-top: 20px; padding: 15px; background: #FFF9DB; border-radius: 12px;">
@@ -173,7 +181,8 @@
 
                 <div id="payment-error" style="display: none; margin-top: 20px; padding: 15px; background: #FDECEC; border-radius: 12px; border: 1px solid #F5C2C7;">
                     <p id="payment-error-text" style="font-size: 13px; color: #B02A37; font-weight: 700; margin-bottom: 12px;"></p>
-                    <button id="retry-payment-btn" class="btn-primary" style="padding: 12px; border: none; border-radius: 10px; background: #0A84FF; font-size: 14px; margin-bottom: 10px;">Tạo lại giao dịch 199.000đ</button>
+                    <p style="font-size: 12px; color: #7A1D25; line-height: 1.5; margin-bottom: 12px;">Bạn hãy tạo mã mới, sau đó chuyển lại đúng 199.000đ và sao chép đúng nội dung mới hiển thị.</p>
+                    <button id="retry-payment-btn" class="btn-primary" style="padding: 12px; border: none; border-radius: 10px; background: #0A84FF; font-size: 14px; margin-bottom: 10px;">Tạo mã mới để chuyển lại</button>
                     <button id="edit-info-btn" style="width: 100%; padding: 12px; border: 1px solid #B02A37; border-radius: 10px; background: white; color: #B02A37; font-weight: 700; cursor: pointer;">Nhập lại thông tin</button>
                 </div>
 
