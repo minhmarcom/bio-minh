@@ -125,6 +125,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return data.paid === true && getPaymentAmount(data) === EXPECTED_AMOUNT && isExactMemo(data);
     }
 
+    function getPaymentStatus(data) {
+        const source = data.payment ?? data.transaction ?? data;
+        return String(source.status || data.status || '').toLowerCase();
+    }
+
+    function hasPaymentResult(data) {
+        const status = getPaymentStatus(data);
+        return data.paid === true ||
+            status === 'paid' ||
+            status === 'wrong_amount' ||
+            status === 'wrong_memo' ||
+            data.correctAmount === false ||
+            data.correctMemo === false;
+    }
+
     function showPaymentError(message) {
         paymentStatus.style.display = 'none';
         paymentSuccess.style.display = 'none';
@@ -360,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
                 const data = await response.json();
                 
-                if (data.paid) {
+                if (hasPaymentResult(data)) {
                     if (data.duplicatePhone || data.phoneExists) {
                         saveCustomerToSheet({
                             name: currentName,
@@ -375,7 +390,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     if (!isExactPayment(data)) {
-                        const wrongStatus = getPaymentAmount(data) === EXPECTED_AMOUNT ? 'wrong_memo' : 'wrong_amount';
+                        const apiStatus = getPaymentStatus(data);
+                        const wrongStatus = apiStatus === 'wrong_memo' || data.correctMemo === false
+                            ? 'wrong_memo'
+                            : 'wrong_amount';
                         const wrongMessage = wrongStatus === 'wrong_memo'
                             ? 'Nội dung chuyển khoản chưa đúng 100% nên chưa thể mở link vào group.'
                             : 'Số tiền chuyển khoản chưa đúng 199.000đ nên chưa thể mở link vào group.';
