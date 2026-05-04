@@ -121,82 +121,80 @@
 
     <!-- Payment Modal -->
     <div class="modal" id="payment-modal">
-        <div class="modal-content" style="max-width: 440px; width: 92%; text-align: left;">
-            <h2 style="font-size: 22px; margin-bottom: 15px; text-align: center; color: var(--text-main);">Tham gia cộng đồng Prompt AI – 199.000đ/năm</h2>
+        <div class="modal-content payment-modal-content">
+            <h2 style="font-size: 20px; margin-bottom: 12px; text-align: center; color: var(--text-main);">Tham gia cộng đồng Prompt AI – 199.000đ/năm</h2>
             
-            <div style="background: #F8F9FA; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                <p style="font-weight: 700; margin-bottom: 12px; color: #0A84FF; font-size: 16px;">Bạn sẽ nhận được:</p>
-                <ul style="list-style: none; font-size: 15px; line-height: 1.5; color: #2d3436;">
-                    <li style="margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px;">
-                        <i data-lucide="check-circle-2" style="width: 20px; height: 20px; color: #28a745; flex-shrink: 0; margin-top: 2px;"></i>
+            <div class="benefit-list">
+                <p style="font-weight: 700; margin-bottom: 10px; color: #0A84FF; font-size: 15px;">Bạn sẽ nhận được:</p>
+                <ul style="list-style: none;">
+                    <li class="benefit-item">
+                        <i data-lucide="check-circle-2"></i>
                         <span>Prompt mới cập nhật thường xuyên.</span>
                     </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px;">
-                        <i data-lucide="check-circle-2" style="width: 20px; height: 20px; color: #28a745; flex-shrink: 0; margin-top: 2px;"></i>
-                        <span>Prompt theo từng chủ đề: bán hàng, content, marketing, học tập, tự động hóa.</span>
+                    <li class="benefit-item">
+                        <i data-lucide="check-circle-2"></i>
+                        <span>Prompt theo từng chủ đề: bán hàng, marketing, học tập...</span>
                     </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px;">
-                        <i data-lucide="check-circle-2" style="width: 20px; height: 20px; color: #28a745; flex-shrink: 0; margin-top: 2px;"></i>
+                    <li class="benefit-item">
+                        <i data-lucide="check-circle-2"></i>
                         <span>Hướng dẫn cách dùng prompt hiệu quả.</span>
                     </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px;">
-                        <i data-lucide="check-circle-2" style="width: 20px; height: 20px; color: #28a745; flex-shrink: 0; margin-top: 2px;"></i>
+                    <li class="benefit-item">
+                        <i data-lucide="check-circle-2"></i>
                         <span>Quyền truy cập group cộng đồng trong 12 tháng.</span>
                     </li>
                 </ul>
             </div>
 
-            <div id="zalo-verify-step" style="text-align: center; margin-bottom: 20px;">
-                <p style="font-size: 14px; margin-bottom: 12px; color: #636e72;">Vui lòng nhập thông tin để nhận link Group:</p>
+            <div id="zalo-verify-step" style="text-align: center; margin-bottom: 15px;">
+                <p style="font-size: 14px; margin-bottom: 10px; color: #636e72;">Vui lòng nhập thông tin để nhận link Group:</p>
                 <input type="text" id="user-name" placeholder="Họ và tên của bạn..." style="width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; font-size: 16px; margin-bottom: 12px; text-align: center; outline: none; transition: border-color 0.3s;">
                 <input type="tel" id="user-zalo-phone" placeholder="Số điện thoại Zalo..." style="width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; font-size: 16px; margin-bottom: 5px; text-align: center; outline: none; transition: border-color 0.3s;">
                 <p id="phone-error" style="display: none; color: #d63031; font-size: 12px; margin-bottom: 15px; font-weight: 600;">⚠️ Số điện thoại này đã đăng ký trên hệ thống!</p>
-                <button id="confirm-zalo-btn" class="btn-primary" style="width: 100%; margin-bottom: 0; background: #0A84FF;">Tiếp tục thanh toán</button>
+                <button id="confirm-zalo-btn" class="btn-primary" style="width: 100%; margin-bottom: 0; background: #0A84FF; padding: 14px;">Tiếp tục thanh toán</button>
             </div>
 
             <div id="payment-details" style="display: none; text-align: center;">
-                <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 16px;">
-                    <div style="background: #EAF4FF; border: 1px solid #BBDFFF; padding: 14px; border-radius: 12px;">
-                        <p style="font-size: 12px; color: #43627A; font-weight: 700; margin-bottom: 4px;">Số tiền cần chuyển</p>
-                        <p style="font-size: 24px; color: #0A84FF; font-weight: 800; line-height: 1;">199.000đ</p>
+                <div class="payment-grid">
+                    <div class="amount-box">
+                        <p style="font-size: 11px; color: #43627A; font-weight: 700; margin-bottom: 2px;">Số tiền cần chuyển</p>
+                        <p style="font-size: 22px; color: #0A84FF; font-weight: 800; line-height: 1;">199.000đ</p>
                     </div>
-                    <p style="font-size: 12px; color: #636e72; line-height: 1.5;">Vui lòng chuyển đúng số tiền và đúng nội dung bên dưới. Sai một trong hai thông tin, hệ thống sẽ không mở link group.</p>
+                    <p style="font-size: 12px; color: #636e72; line-height: 1.4;">Chuyển khoản đúng số tiền và nội dung để hệ thống tự động mở link.</p>
                 </div>
 
-                <div id="dynamic-qr-container" style="margin-bottom: 20px;">
-                    <!-- QR sẽ được tạo tự động qua JS -->
-                    <img id="qr-code-img" src="" alt="QR thanh toán" style="width: 240px; max-width: 100%; border-radius: 12px; border: 1px solid #eee;">
+                <div class="qr-container">
+                    <img id="qr-code-img" src="" alt="QR thanh toán" class="qr-code">
                 </div>
 
-                <p style="margin-bottom: 10px; font-size: 14px; font-weight: 700;">Nội dung chuyển khoản bắt buộc</p>
-                <div style="background: #f1f2f6; padding: 15px; border-radius: 10px; border: 2px dashed #0A84FF; margin-bottom: 20px;">
-                    <span id="copy-text" style="display: block; overflow-wrap: anywhere; font-size: 18px; color: #d63031; font-weight: 800; line-height: 1.35; margin-bottom: 12px;">NM0000 090xxxxxxx</span>
-                    <button id="copy-btn" style="width: 100%; background: #0A84FF; color: white; border: none; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700;">Sao chép nội dung</button>
+                <p style="margin-bottom: 8px; font-size: 13px; font-weight: 700;">Nội dung chuyển khoản bắt buộc</p>
+                <div class="memo-box">
+                    <span id="copy-text" class="memo-text">NM0000 090xxxxxxx</span>
+                    <button id="copy-btn" style="width: 100%; background: #0A84FF; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700;">Sao chép nội dung</button>
                 </div>
 
-                <div id="payment-status" style="margin-top: 20px; padding: 15px; background: #FFF9DB; border-radius: 12px;">
-                    <div class="loader" style="margin-bottom: 10px;"></div>
-                    <p style="font-size: 13px; color: #856404;">Hệ thống đang chờ tiền vào tài khoản...</p>
+                <div id="payment-status" style="margin-top: 15px; padding: 12px; background: #FFF9DB; border-radius: 12px;">
+                    <div class="loader" style="margin-bottom: 8px; width: 20px; height: 20px;"></div>
+                    <p style="font-size: 12px; color: #856404;">Hệ thống đang chờ tiền vào tài khoản...</p>
                 </div>
 
-                <div id="payment-error" style="display: none; margin-top: 20px; padding: 15px; background: #FDECEC; border-radius: 12px; border: 1px solid #F5C2C7;">
-                    <p id="payment-error-text" style="font-size: 13px; color: #B02A37; font-weight: 700; margin-bottom: 12px;"></p>
-                    <p style="font-size: 12px; color: #7A1D25; line-height: 1.5; margin-bottom: 12px;">Bạn hãy tạo mã mới, sau đó chuyển lại đúng 199.000đ và sao chép đúng nội dung mới hiển thị.</p>
-                    <button id="retry-payment-btn" class="btn-primary" style="padding: 12px; border: none; border-radius: 10px; background: #0A84FF; font-size: 14px; margin-bottom: 10px;">Tạo mã mới để chuyển lại</button>
-                    <button id="edit-info-btn" style="width: 100%; padding: 12px; border: 1px solid #B02A37; border-radius: 10px; background: white; color: #B02A37; font-weight: 700; cursor: pointer;">Nhập lại thông tin</button>
+                <div id="payment-error" style="display: none; margin-top: 15px; padding: 12px; background: #FDECEC; border-radius: 12px; border: 1px solid #F5C2C7;">
+                    <p id="payment-error-text" style="font-size: 12px; color: #B02A37; font-weight: 700; margin-bottom: 10px;"></p>
+                    <button id="retry-payment-btn" class="btn-primary" style="padding: 10px; border-radius: 10px; background: #0A84FF; font-size: 13px; margin-bottom: 8px;">Tạo mã mới</button>
+                    <button id="edit-info-btn" style="width: 100%; padding: 10px; border: 1px solid #B02A37; border-radius: 10px; background: white; color: #B02A37; font-weight: 700; cursor: pointer; font-size: 13px;">Nhập lại thông tin</button>
                 </div>
 
-                <div id="payment-success" style="display: none; margin-top: 20px; padding: 20px; background: #D4EDDA; border-radius: 12px; border: 1px solid #C3E6CB;">
+                <div id="payment-success" style="display: none; margin-top: 15px; padding: 15px; background: #D4EDDA; border-radius: 12px; border: 1px solid #C3E6CB;">
                     <p style="color: #155724; font-weight: 700; margin-bottom: 10px;">🎉 Đã nhận thanh toán!</p>
-                    <a href="javascript:void(0)" id="group-link" target="_blank" rel="noopener" class="btn-primary" aria-disabled="true" style="background: #28a745; margin-bottom: 0;">VÀO GROUP NGAY</a>
+                    <a href="javascript:void(0)" id="group-link" target="_blank" rel="noopener" class="btn-primary" aria-disabled="true" style="background: #28a745; margin-bottom: 0; padding: 12px;">VÀO GROUP NGAY</a>
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 15px;">
-                <a href="https://zalo.me/0584556556" target="_blank" class="btn-primary" style="display: block; background: #0068FF; color: white; padding: 14px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 0;">
+            <div style="text-align: center; margin-top: 10px;">
+                <a href="https://zalo.me/0584556556" target="_blank" class="btn-primary" style="display: block; background: #0068FF; color: white; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 0; font-size: 15px;">
                     Hỗ trợ Zalo
                 </a>
-                <div class="close-modal" id="payment-close" style="margin-top: 12px; background: #eee; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; color: #333; display: inline-block;">
+                <div class="close-modal" id="payment-close" style="margin-top: 10px; background: #eee; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; color: #333; display: inline-block; font-size: 14px;">
                     Đóng
                 </div>
             </div>
