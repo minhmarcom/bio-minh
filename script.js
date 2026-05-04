@@ -118,7 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function isExactMemo(data) {
-        return normalizeMemo(getPaymentMemo(data)) === normalizeMemo(currentMemo);
+        const paidMemo = normalizeMemo(getPaymentMemo(data));
+        const expectedMemo = normalizeMemo(currentMemo);
+        return paidMemo === expectedMemo || paidMemo.startsWith(`${expectedMemo} `);
     }
 
     function isExactPayment(data) {
