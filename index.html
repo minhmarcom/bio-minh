@@ -122,49 +122,58 @@
     <!-- Payment Modal -->
     <div class="modal" id="payment-modal">
         <div class="modal-content payment-modal-content">
-            <h2 style="font-size: 20px; margin-bottom: 12px; text-align: center; color: var(--text-main);">Tham gia cộng đồng Prompt AI – 199.000đ/năm</h2>
+            <h2 id="modal-title" style="font-size: 20px; margin-bottom: 12px; text-align: center; color: var(--text-main);">Tham gia cộng đồng Prompt AI</h2>
             
-            <div class="benefit-list">
-                <p style="font-weight: 700; margin-bottom: 10px; color: #0A84FF; font-size: 15px;">Bạn sẽ nhận được:</p>
-                <ul style="list-style: none;">
-                    <li class="benefit-item">
-                        <i data-lucide="check-circle-2"></i>
-                        <span>Prompt mới cập nhật thường xuyên.</span>
-                    </li>
-                    <li class="benefit-item">
-                        <i data-lucide="check-circle-2"></i>
-                        <span>Prompt theo từng chủ đề: bán hàng, marketing, học tập...</span>
-                    </li>
-                    <li class="benefit-item">
-                        <i data-lucide="check-circle-2"></i>
-                        <span>Hướng dẫn cách dùng prompt hiệu quả.</span>
-                    </li>
-                    <li class="benefit-item">
-                        <i data-lucide="check-circle-2"></i>
-                        <span>Quyền truy cập group cộng đồng trong 12 tháng.</span>
-                    </li>
-                </ul>
+            <!-- Bước 1: Quyền lợi -->
+            <div id="benefits-step">
+                <div class="benefit-list">
+                    <p style="font-weight: 700; margin-bottom: 10px; color: #0A84FF; font-size: 15px;">Bạn sẽ nhận được:</p>
+                    <ul style="list-style: none;">
+                        <li class="benefit-item">
+                            <i data-lucide="check-circle-2"></i>
+                            <span>Prompt mới cập nhật thường xuyên.</span>
+                        </li>
+                        <li class="benefit-item">
+                            <i data-lucide="check-circle-2"></i>
+                            <span>Prompt theo từng chủ đề chuyên sâu.</span>
+                        </li>
+                        <li class="benefit-item">
+                            <i data-lucide="check-circle-2"></i>
+                            <span>Hướng dẫn cách dùng prompt hiệu quả.</span>
+                        </li>
+                        <li class="benefit-item">
+                            <i data-lucide="check-circle-2"></i>
+                            <span>Quyền truy cập group trong 12 tháng.</span>
+                        </li>
+                    </ul>
+                </div>
+                <button id="start-register-btn" class="btn-primary" style="width: 100%; background: #0A84FF; padding: 14px; margin-bottom: 0;">Đăng ký & Thanh toán ngay</button>
             </div>
 
-            <div id="zalo-verify-step" style="text-align: center; margin-bottom: 15px;">
-                <p style="font-size: 14px; margin-bottom: 10px; color: #636e72;">Vui lòng nhập thông tin để nhận link Group:</p>
+            <!-- Bước 2: Nhập thông tin -->
+            <div id="zalo-verify-step" style="display: none; text-align: center;">
+                <p style="font-size: 14px; margin-bottom: 15px; color: #636e72;">Nhập thông tin để nhận link Group Zalo:</p>
                 <input type="text" id="user-name" placeholder="Họ và tên của bạn..." style="width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; font-size: 16px; margin-bottom: 12px; text-align: center; outline: none; transition: border-color 0.3s;">
                 <input type="tel" id="user-zalo-phone" placeholder="Số điện thoại Zalo..." style="width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; font-size: 16px; margin-bottom: 5px; text-align: center; outline: none; transition: border-color 0.3s;">
-                <p id="phone-error" style="display: none; color: #d63031; font-size: 12px; margin-bottom: 15px; font-weight: 600;">⚠️ Số điện thoại này đã đăng ký trên hệ thống!</p>
-                <button id="confirm-zalo-btn" class="btn-primary" style="width: 100%; margin-bottom: 0; background: #0A84FF; padding: 14px;">Tiếp tục thanh toán</button>
+                <p id="phone-error" style="display: none; color: #d63031; font-size: 12px; margin-bottom: 15px; font-weight: 600;">⚠️ Số điện thoại này đã đăng ký!</p>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button id="back-to-benefits" style="flex: 1; padding: 12px; border: 1px solid #eee; border-radius: 10px; background: #f8f9fa; color: #666; font-weight: 600; cursor: pointer;">Quay lại</button>
+                    <button id="confirm-zalo-btn" class="btn-primary" style="flex: 2; margin-bottom: 0; background: #0A84FF; padding: 14px;">Tiếp tục</button>
+                </div>
             </div>
 
+            <!-- Bước 3: Thanh toán -->
             <div id="payment-details" style="display: none; text-align: center;">
                 <div class="payment-grid">
                     <div class="amount-box">
                         <p style="font-size: 11px; color: #43627A; font-weight: 700; margin-bottom: 2px;">Số tiền cần chuyển</p>
                         <p style="font-size: 22px; color: #0A84FF; font-weight: 800; line-height: 1;">199.000đ</p>
                     </div>
-                    <p style="font-size: 12px; color: #636e72; line-height: 1.4;">Chuyển khoản đúng số tiền và nội dung để hệ thống tự động mở link.</p>
                 </div>
 
-                <div class="qr-container">
-                    <img id="qr-code-img" src="" alt="QR thanh toán" class="qr-code">
+                <div class="qr-container" style="position: relative; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                    <div id="qr-loader" class="loader" style="position: absolute;"></div>
+                    <img id="qr-code-img" src="" alt="QR thanh toán" class="qr-code" style="display: none;">
                 </div>
 
                 <p style="margin-bottom: 8px; font-size: 13px; font-weight: 700;">Nội dung chuyển khoản bắt buộc</p>

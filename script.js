@@ -13,32 +13,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentOpen = document.getElementById('payment-open');
     const paymentClose = document.getElementById('payment-close');
     const paymentModal = document.getElementById('payment-modal');
-    let paymentCheckInterval;
-
-    // QR Modal Logic
-    qrOpen.addEventListener('click', () => {
-        qrModal.classList.add('active');
-    });
-
-    qrClose.addEventListener('click', () => {
-        qrModal.classList.remove('active');
-    });
-
-    // Payment Modal Logic
-    const confirmZaloBtn = document.getElementById('confirm-zalo-btn');
-    const zaloPhoneInput = document.getElementById('user-zalo-phone');
+    
+    // Steps containers
+    const benefitsStep = document.getElementById('benefits-step');
     const zaloStep = document.getElementById('zalo-verify-step');
     const paymentDetails = document.getElementById('payment-details');
+    const modalTitle = document.getElementById('modal-title');
+    
+    // Buttons
+    const startRegisterBtn = document.getElementById('start-register-btn');
+    const backToBenefitsBtn = document.getElementById('back-to-benefits');
+    const confirmZaloBtn = document.getElementById('confirm-zalo-btn');
+    const retryPaymentBtn = document.getElementById('retry-payment-btn');
+    const editInfoBtn = document.getElementById('edit-info-btn');
     const copyBtn = document.getElementById('copy-btn');
+    
+    // Other elements
+    const zaloPhoneInput = document.getElementById('user-zalo-phone');
     const copyText = document.getElementById('copy-text');
     const qrCodeImg = document.getElementById('qr-code-img');
+    const qrLoader = document.getElementById('qr-loader');
     const paymentStatus = document.getElementById('payment-status');
     const paymentSuccess = document.getElementById('payment-success');
     const paymentError = document.getElementById('payment-error');
     const paymentErrorText = document.getElementById('payment-error-text');
     const groupLink = document.getElementById('group-link');
-    const retryPaymentBtn = document.getElementById('retry-payment-btn');
-    const editInfoBtn = document.getElementById('edit-info-btn');
+    
+    let paymentCheckInterval;
 
     paymentOpen.addEventListener('click', () => {
         paymentModal.classList.add('active');
@@ -48,6 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
     paymentClose.addEventListener('click', () => {
         paymentModal.classList.remove('active');
         stopPaymentPolling();
+    });
+
+    startRegisterBtn.addEventListener('click', () => {
+        showStep(2);
+    });
+
+    backToBenefitsBtn.addEventListener('click', () => {
+        showStep(1);
     });
 
     groupLink.addEventListener('click', (e) => {
@@ -131,6 +140,16 @@ document.addEventListener('DOMContentLoaded', () => {
         groupLink.setAttribute('aria-disabled', 'true');
     }
 
+    function showStep(step) {
+        benefitsStep.style.display = (step === 1) ? 'block' : 'none';
+        zaloStep.style.display = (step === 2) ? 'block' : 'none';
+        paymentDetails.style.display = (step === 3) ? 'block' : 'none';
+        
+        if (step === 1) modalTitle.innerText = "Tham gia cộng đồng Prompt AI";
+        if (step === 2) modalTitle.innerText = "Thông tin đăng ký";
+        if (step === 3) modalTitle.innerText = "Thanh toán dịch vụ";
+    }
+
     function resetPaymentUI() {
         stopPaymentPolling();
         currentPhone = "";
@@ -143,10 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setConfirmButtonDisabled(false);
         copyText.innerText = 'NM0000 090xxxxxxx';
         copyBtn.innerText = 'Sao chép nội dung';
+        qrCodeImg.style.display = 'none';
+        qrLoader.style.display = 'block';
         qrCodeImg.removeAttribute('src');
         setWaitingPaymentState();
-        zaloStep.style.display = 'block';
-        paymentDetails.style.display = 'none';
+        showStep(1);
     }
 
     function showInfoStep() {
@@ -155,10 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
         currentMemo = "";
         copyText.innerText = 'NM0000 090xxxxxxx';
         copyBtn.innerText = 'Sao chép nội dung';
+        qrCodeImg.style.display = 'none';
+        qrLoader.style.display = 'block';
         qrCodeImg.removeAttribute('src');
         setWaitingPaymentState();
-        zaloStep.style.display = 'block';
-        paymentDetails.style.display = 'none';
+        showStep(2);
         setConfirmButtonDisabled(false);
     }
 
@@ -243,11 +264,24 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTxId = fullTxId;
         currentMemo = memo;
         copyText.innerText = memo;
-        qrCodeImg.src = `https://img.vietqr.io/image/MB-202159-compact.png?amount=${EXPECTED_AMOUNT}&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
-        setWaitingPaymentState();
+        
+        // QR Optimization: Show loader, set src, then show image when loaded
+        qrCodeImg.style.display = 'none';
+        qrLoader.style.display = 'block';
+        
+        const qrUrl = `https://img.vietqr.io/image/MB-202159-compact.png?amount=${EXPECTED_AMOUNT}&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
+        
+        // Pre-load image to ensure it appears "instantly" once ready
+        const tempImg = new Image();
+        tempImg.onload = () => {
+            qrCodeImg.src = qrUrl;
+            qrCodeImg.style.display = 'inline-block';
+            qrLoader.style.display = 'none';
+        };
+        tempImg.src = qrUrl;
 
-        zaloStep.style.display = 'none';
-        paymentDetails.style.display = 'block';
+        setWaitingPaymentState();
+        showStep(3);
 
         saveCustomerToSheet({
             name,
