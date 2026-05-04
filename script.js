@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentError = document.getElementById('payment-error');
     const paymentErrorText = document.getElementById('payment-error-text');
     const groupLink = document.getElementById('group-link');
+    const retryPaymentBtn = document.getElementById('retry-payment-btn');
+    const editInfoBtn = document.getElementById('edit-info-btn');
 
     paymentOpen.addEventListener('click', () => {
         paymentModal.classList.add('active');
@@ -55,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     let currentPhone = "";
+    let currentName = "";
+    let currentTxId = "";
     let phoneCheckRequest = 0;
 
     function normalizePhone(phone) {
@@ -103,9 +107,20 @@ document.addEventListener('DOMContentLoaded', () => {
         paymentError.style.display = 'block';
     }
 
+    function setWaitingPaymentState() {
+        paymentStatus.style.display = 'block';
+        paymentSuccess.style.display = 'none';
+        paymentError.style.display = 'none';
+        paymentErrorText.innerText = '';
+        groupLink.href = 'javascript:void(0)';
+        groupLink.setAttribute('aria-disabled', 'true');
+    }
+
     function resetPaymentUI() {
         stopPaymentPolling();
         currentPhone = "";
+        currentName = "";
+        currentTxId = "";
         document.getElementById('user-name').value = '';
         zaloPhoneInput.value = '';
         phoneError.style.display = 'none';
@@ -113,14 +128,21 @@ document.addEventListener('DOMContentLoaded', () => {
         copyText.innerText = 'NM0000 090xxxxxxx';
         copyBtn.innerText = 'Sao chép';
         qrCodeImg.removeAttribute('src');
-        paymentStatus.style.display = 'block';
-        paymentSuccess.style.display = 'none';
-        paymentError.style.display = 'none';
-        paymentErrorText.innerText = '';
-        groupLink.href = 'javascript:void(0)';
-        groupLink.setAttribute('aria-disabled', 'true');
+        setWaitingPaymentState();
         zaloStep.style.display = 'block';
         paymentDetails.style.display = 'none';
+    }
+
+    function showInfoStep() {
+        stopPaymentPolling();
+        currentTxId = "";
+        copyText.innerText = 'NM0000 090xxxxxxx';
+        copyBtn.innerText = 'Sao chép';
+        qrCodeImg.removeAttribute('src');
+        setWaitingPaymentState();
+        zaloStep.style.display = 'block';
+        paymentDetails.style.display = 'none';
+        setConfirmButtonDisabled(false);
     }
 
     function copySelectedText() {
@@ -174,6 +196,52 @@ document.addEventListener('DOMContentLoaded', () => {
         return copied || copyFromVisibleMemo();
     }
 
+    async function saveCustomerToSheet(payload) {
+        const params = new URLSearchParams({
+            action: 'saveCustomer',
+            name: payload.name,
+            phone: payload.phone,
+            txId: payload.txId,
+            amount: String(EXPECTED_AMOUNT),
+            memo: payload.memo,
+            status: payload.status
+        });
+
+        try {
+            await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
+        } catch (e) {
+            console.log('Saving customer info failed.');
+        }
+    }
+
+    function createPaymentSession(name, phone) {
+        currentName = name;
+        currentPhone = phone;
+
+        const txId = Math.floor(1000 + Math.random() * 9000);
+        const fullTxId = `NM${txId}`;
+        const cleanName = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
+        const memo = `${fullTxId} ${phone} ${cleanName}`;
+
+        currentTxId = fullTxId;
+        copyText.innerText = memo;
+        qrCodeImg.src = `https://img.vietqr.io/image/MB-202159-compact.png?amount=${EXPECTED_AMOUNT}&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
+        setWaitingPaymentState();
+
+        zaloStep.style.display = 'none';
+        paymentDetails.style.display = 'block';
+
+        saveCustomerToSheet({
+            name,
+            phone,
+            txId: fullTxId,
+            memo,
+            status: 'pending'
+        });
+
+        startPaymentPolling(fullTxId, phone);
+    }
+
     // --- KIỂM TRA SĐT TRỰC TIẾP KHI NHẬP ---
     const phoneError = document.getElementById('phone-error');
     zaloPhoneInput.addEventListener('input', async () => {
@@ -218,22 +286,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        currentPhone = phone;
-        // Tạo mã giao dịch ngẫu nhiên
-        const txId = Math.floor(1000 + Math.random() * 9000);
-        const fullTxId = `NM${txId}`;
-        
-        const cleanName = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
-        const memo = `${fullTxId} ${phone} ${cleanName}`;
-        
-        document.getElementById('copy-text').innerText = memo;
+        createPaymentSession(name, phone);
+    });
 
-        const qrUrl = `https://img.vietqr.io/image/MB-202159-compact.png?amount=${EXPECTED_AMOUNT}&addInfo=${encodeURIComponent(memo)}&accountName=NHAT%20MINH`;
-        document.getElementById('qr-code-img').src = qrUrl;
-        
-        zaloStep.style.display = 'none';
-        paymentDetails.style.display = 'block';
-        startPaymentPolling(fullTxId, currentPhone);
+    retryPaymentBtn.addEventListener('click', () => {
+        if (!currentName || !currentPhone) {
+            showInfoStep();
+            return;
+        }
+
+        createPaymentSession(currentName, currentPhone);
+    });
+
+    editInfoBtn.addEventListener('click', () => {
+        showInfoStep();
     });
 
     copyBtn.addEventListener('click', async () => {
@@ -259,6 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const params = new URLSearchParams({
                     id: txId,
                     phone,
+                    name: currentName,
                     amount: String(EXPECTED_AMOUNT)
                 });
                 const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
@@ -266,17 +333,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (data.paid) {
                     if (data.duplicatePhone || data.phoneExists) {
+                        saveCustomerToSheet({
+                            name: currentName,
+                            phone,
+                            txId,
+                            memo: copyText.innerText.trim(),
+                            status: 'duplicate_phone'
+                        });
                         showPaymentError('Số điện thoại này đã được đăng ký trước đó nên chưa thể duyệt vào group.');
                         stopPaymentPolling();
                         return;
                     }
 
                     if (!isExactPayment(data)) {
+                        saveCustomerToSheet({
+                            name: currentName,
+                            phone,
+                            txId,
+                            memo: copyText.innerText.trim(),
+                            status: 'wrong_amount'
+                        });
                         showPaymentError('Số tiền chuyển khoản chưa đúng 199.000đ nên chưa thể mở link vào group.');
                         stopPaymentPolling();
                         return;
                     }
 
+                    saveCustomerToSheet({
+                        name: currentName,
+                        phone,
+                        txId,
+                        memo: copyText.innerText.trim(),
+                        status: 'paid'
+                    });
                     showPaymentSuccess();
                     stopPaymentPolling();
                 }
