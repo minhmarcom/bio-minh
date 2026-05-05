@@ -82,20 +82,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTxId = "";
     let currentMemo = "";
     let phoneCheckRequest = 0;
+    const phoneCache = {}; // Cache kết quả kiểm tra SĐT
 
     function normalizePhone(phone) {
         return phone.replace(/\D/g, '');
     }
 
     async function checkPhoneExists(phone) {
-        const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${encodeURIComponent(phone)}`);
-        const data = await response.json();
-        return Boolean(data.exists);
+        if (phoneCache[phone] !== undefined) return phoneCache[phone];
+        
+        try {
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${encodeURIComponent(phone)}`);
+            const data = await response.json();
+            const exists = Boolean(data.exists);
+            phoneCache[phone] = exists;
+            return exists;
+        } catch (e) {
+            return false;
+        }
     }
 
-    function setConfirmButtonDisabled(disabled) {
+    function setConfirmButtonDisabled(disabled, loading = false) {
         confirmZaloBtn.disabled = disabled;
         confirmZaloBtn.style.opacity = disabled ? '0.5' : '1';
+        if (loading) {
+            confirmZaloBtn.innerHTML = '<span class="loader" style="width: 16px; height: 16px; border-width: 2px; border-top-color: white; margin-right: 8px;"></span> Đang xử lý...';
+        } else {
+            confirmZaloBtn.innerHTML = 'Tiếp tục';
+        }
     }
 
     function getPaymentAmount(data) {
@@ -336,21 +350,24 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        setConfirmButtonDisabled(true);
+        setConfirmButtonDisabled(true, true);
 
         try {
+            // Kiểm tra số điện thoại
             const exists = await checkPhoneExists(phone);
             if (exists) {
                 phoneError.style.display = 'block';
+                setConfirmButtonDisabled(true, false);
                 return;
             }
         } catch (e) {
-            alert('Chưa kiểm tra được số điện thoại. Vui lòng thử lại sau!');
-            setConfirmButtonDisabled(false);
-            return;
+            // Nếu lỗi mạng, vẫn cho phép đi tiếp để không chặn người dùng
+            console.log('Phone check failed, proceeding anyway.');
         }
         
         createPaymentSession(name, phone);
+        // Reset button state after transition
+        setTimeout(() => setConfirmButtonDisabled(false, false), 1000);
     });
 
     retryPaymentBtn.addEventListener('click', () => {
