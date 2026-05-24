@@ -215,7 +215,11 @@
 
                 <div id="payment-status" style="margin-top: 15px; padding: 12px; background: #FFF9DB; border-radius: 12px;">
                     <div class="loader" style="margin-bottom: 8px; width: 20px; height: 20px;"></div>
-                    <p style="font-size: 12px; color: #856404;">Hệ thống đang chờ tiền vào tài khoản...</p>
+                    <p id="payment-status-text" style="font-size: 12px; color: #856404;">Hệ thống đang chờ tiền vào tài khoản...</p>
+                    <div id="payment-wait-help" style="display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(133, 100, 4, 0.18);">
+                        <p style="font-size: 12px; color: #856404; font-weight: 700; margin-bottom: 8px;">Nếu đã chuyển khoản hơn 3 phút nhưng chưa thấy link, vui lòng liên hệ admin để được duyệt thủ công.</p>
+                        <a id="payment-admin-link" href="https://zalo.me/0584556556" target="_blank" rel="noopener" style="display: block; background: #0068FF; color: white; padding: 10px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 13px;">Liên hệ admin</a>
+                    </div>
                 </div>
 
                 <div id="payment-error" style="display: none; margin-top: 15px; padding: 12px; background: #FDECEC; border-radius: 12px; border: 1px solid #F5C2C7;">

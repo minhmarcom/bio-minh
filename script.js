@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const SHEET_GVIZ_URL = "https://docs.google.com/spreadsheets/d/1Vy7Qjc5M4x7y6p89L81OuTsUGsRPAEywI_8_2nmRzsQ/gviz/tq?gid=0";
     const EXPECTED_AMOUNT = 199000;
     const GROUP_URL = "https://zalo.me/g/o6nheqcgncsmefoyxtd1";
+    const ADMIN_URL = "https://zalo.me/0584556556";
+    const PAYMENT_SUPPORT_DELAY_MS = 3 * 60 * 1000;
     // ------------------------------------------------
 
     const qrOpen = document.getElementById('qr-open');
@@ -36,12 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const qrCodeImg = document.getElementById('qr-code-img');
     const qrLoader = document.getElementById('qr-loader');
     const paymentStatus = document.getElementById('payment-status');
+    const paymentStatusText = document.getElementById('payment-status-text');
+    const paymentWaitHelp = document.getElementById('payment-wait-help');
+    const paymentAdminLink = document.getElementById('payment-admin-link');
     const paymentSuccess = document.getElementById('payment-success');
     const paymentError = document.getElementById('payment-error');
     const paymentErrorText = document.getElementById('payment-error-text');
     const groupLink = document.getElementById('group-link');
     
     let paymentCheckInterval;
+    let paymentSupportTimer;
 
     const enterpriseOpen = document.getElementById('enterprise-open');
     const enterpriseClose = document.getElementById('enterprise-close');
@@ -181,8 +187,16 @@ document.addEventListener('DOMContentLoaded', () => {
         paymentSuccess.style.display = 'none';
         paymentError.style.display = 'none';
         paymentErrorText.innerText = '';
+        paymentStatusText.innerText = 'Hệ thống đang chờ tiền vào tài khoản...';
+        paymentWaitHelp.style.display = 'none';
+        paymentAdminLink.href = ADMIN_URL;
         groupLink.href = 'javascript:void(0)';
         groupLink.setAttribute('aria-disabled', 'true');
+    }
+
+    function showDelayedSupport() {
+        paymentStatusText.innerText = 'Hệ thống vẫn đang đối soát giao dịch của bạn...';
+        paymentWaitHelp.style.display = 'block';
     }
 
     function showStep(step) {
@@ -509,6 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startPaymentPolling(txId, phone) {
         stopPaymentPolling();
+        paymentSupportTimer = setTimeout(showDelayedSupport, PAYMENT_SUPPORT_DELAY_MS);
         paymentCheckInterval = setInterval(async () => {
             try {
                 // Gửi kèm cả SĐT để Google đối soát chính xác
@@ -517,38 +532,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (hasPaymentResult(data)) {
                     if (data.duplicatePhone || data.phoneExists) {
-                        saveCustomerToSheet({
-                            name: currentName,
-                            phone,
-                            txId,
-                            memo: copyText.innerText.trim(),
-                            status: 'duplicate_phone'
-                        });
                         showPaymentError('Số điện thoại này đã được đăng ký trước đó nên chưa thể duyệt vào group.');
                         stopPaymentPolling();
                         return;
                     }
 
                     if (!isExactPayment(data)) {
-                        saveCustomerToSheet({
-                            name: currentName,
-                            phone,
-                            txId,
-                            memo: currentMemo,
-                            status: 'wrong_amount'
-                        });
                         showPaymentError('Số tiền chuyển khoản chưa đúng 199.000đ nên chưa thể mở link vào group.');
                         stopPaymentPolling();
                         return;
                     }
 
-                    saveCustomerToSheet({
-                        name: currentName,
-                        phone,
-                        txId,
-                        memo: currentMemo,
-                        status: 'paid'
-                    });
                     showPaymentSuccess();
                     stopPaymentPolling();
                 }
@@ -562,6 +556,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (paymentCheckInterval) {
             clearInterval(paymentCheckInterval);
             paymentCheckInterval = null;
+        }
+        if (paymentSupportTimer) {
+            clearTimeout(paymentSupportTimer);
+            paymentSupportTimer = null;
         }
     }
 
