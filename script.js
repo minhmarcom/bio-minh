@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- DÁN URL GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ---
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAKM-RMttdMQJAKO7p_08MA1jjmVKtD5wqvf-wXnXZgxw0W3vkXBi07uYKlvtbxYMJ/exec"; 
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfwoEyv7tM-RFSuw9zuOcwYaLuqT-3SALStRkEMom7_sLPNnrstCUrI5NF5tBOHrly/exec";
     const SHEET_GVIZ_URL = "https://docs.google.com/spreadsheets/d/1Vy7Qjc5M4x7y6p89L81OuTsUGsRPAEywI_8_2nmRzsQ/gviz/tq?gid=0";
     const EXPECTED_AMOUNT = 199000;
     const GROUP_URL = "https://zalo.me/g/o6nheqcgncsmefoyxtd1";
