@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- DÁN URL GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ---
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAKM-RMttdMQJAKO7p_08MA1jjmVKtD5wqvf-wXnXZgxw0W3vkXBi07uYKlvtbxYMJ/exec"; 
+    const SHEET_GVIZ_URL = "https://docs.google.com/spreadsheets/d/1Vy7Qjc5M4x7y6p89L81OuTsUGsRPAEywI_8_2nmRzsQ/gviz/tq?gid=0";
     const EXPECTED_AMOUNT = 199000;
     const GROUP_URL = "https://zalo.me/g/o6nheqcgncsmefoyxtd1";
     // ------------------------------------------------
@@ -88,12 +89,30 @@ document.addEventListener('DOMContentLoaded', () => {
         return phone.replace(/\D/g, '');
     }
 
+    async function fetchJson(url) {
+        const response = await fetch(url, { cache: 'no-store' });
+        const text = await response.text();
+
+        try {
+            return JSON.parse(text);
+        } catch (e) {
+            throw new Error(text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() || 'Invalid JSON response');
+        }
+    }
+
+    function normalizeText(value) {
+        return String(value || '').trim().toLowerCase();
+    }
+
+    function normalizeMemo(value) {
+        return normalizeText(value).replace(/\s+/g, ' ');
+    }
+
     async function checkPhoneExists(phone) {
         if (phoneCache[phone] !== undefined) return phoneCache[phone];
         
         try {
-            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${encodeURIComponent(phone)}`);
-            const data = await response.json();
+            const data = await fetchJson(`${GOOGLE_SCRIPT_URL}?action=checkPhone&phone=${encodeURIComponent(phone)}`);
             const exists = Boolean(data.exists);
             phoneCache[phone] = exists;
             return exists;
@@ -278,6 +297,96 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function loadSheetRowsViaJsonp() {
+        return new Promise((resolve, reject) => {
+            const callbackName = `sheetPaymentCallback_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+            const script = document.createElement('script');
+            const timeout = setTimeout(() => {
+                cleanup();
+                reject(new Error('Sheet fallback timed out'));
+            }, 10000);
+
+            function cleanup() {
+                clearTimeout(timeout);
+                delete window[callbackName];
+                script.remove();
+            }
+
+            window[callbackName] = payload => {
+                cleanup();
+
+                if (!payload || payload.status !== 'ok' || !payload.table) {
+                    reject(new Error('Sheet fallback returned no table'));
+                    return;
+                }
+
+                const headers = payload.table.cols.map(col => col.label || col.id);
+                const rows = payload.table.rows.map(row => {
+                    return headers.reduce((record, header, index) => {
+                        const cell = row.c && row.c[index];
+                        record[header] = cell ? (cell.f ?? cell.v ?? '') : '';
+                        return record;
+                    }, {});
+                });
+
+                resolve(rows);
+            };
+
+            script.onerror = () => {
+                cleanup();
+                reject(new Error('Sheet fallback failed to load'));
+            };
+            script.src = `${SHEET_GVIZ_URL}&tqx=responseHandler:${callbackName};out:json&cacheBust=${Date.now()}`;
+            document.body.appendChild(script);
+        });
+    }
+
+    async function findPaymentInSheet(txId, phone, memo) {
+        const rows = await loadSheetRowsViaJsonp();
+        const cleanPhone = normalizePhone(phone);
+        const cleanMemo = normalizeMemo(memo);
+
+        const matches = rows.filter(row => {
+            const rowTxId = String(row.txId || '').trim().toUpperCase();
+            const rowPhone = normalizePhone(row.phone || row.memo || row.paidMemo || '');
+            const rowMemo = normalizeMemo(`${row.memo || ''} ${row.paidMemo || ''}`);
+
+            return rowTxId === txId.toUpperCase() ||
+                (cleanMemo && rowMemo.includes(cleanMemo)) ||
+                (rowTxId && cleanPhone && rowPhone.includes(cleanPhone) && cleanMemo.includes(rowTxId.toLowerCase()));
+        });
+
+        if (!matches.length) return null;
+
+        const exactPaid = matches.find(row =>
+            normalizeText(row.status) === 'paid' &&
+            Number(String(row.paidAmount || row.amount || '').replace(/[^\d]/g, '')) === EXPECTED_AMOUNT
+        );
+        const wrongAmount = matches.find(row =>
+            normalizeText(row.status) === 'wrong_amount' ||
+            (row.paidAmount && Number(String(row.paidAmount).replace(/[^\d]/g, '')) !== EXPECTED_AMOUNT)
+        );
+
+        return exactPaid || wrongAmount || matches[matches.length - 1];
+    }
+
+    async function checkPaymentStatus(txId, phone) {
+        const params = new URLSearchParams({
+            id: txId,
+            phone,
+            name: currentName,
+            amount: String(EXPECTED_AMOUNT),
+            memo: currentMemo
+        });
+
+        try {
+            return await fetchJson(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
+        } catch (err) {
+            console.log('Payment API failed, checking sheet fallback:', err.message);
+            return findPaymentInSheet(txId, phone, currentMemo);
+        }
+    }
+
     function createPaymentSession(name, phone) {
         currentName = name;
         currentPhone = phone;
@@ -403,15 +512,8 @@ document.addEventListener('DOMContentLoaded', () => {
         paymentCheckInterval = setInterval(async () => {
             try {
                 // Gửi kèm cả SĐT để Google đối soát chính xác
-                const params = new URLSearchParams({
-                    id: txId,
-                    phone,
-                    name: currentName,
-                    amount: String(EXPECTED_AMOUNT),
-                    memo: currentMemo
-                });
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?${params.toString()}`);
-                const data = await response.json();
+                const data = await checkPaymentStatus(txId, phone);
+                if (!data) return;
                 
                 if (hasPaymentResult(data)) {
                     if (data.duplicatePhone || data.phoneExists) {
