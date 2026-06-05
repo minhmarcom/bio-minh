@@ -207,6 +207,74 @@ body {
     color: var(--primary-color);
 }
 
+.travel-feature {
+    padding: 4px 20px 0;
+}
+
+.travel-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 86px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #0E9F6E 0%, #0A84FF 100%);
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 12px 28px rgba(14, 159, 110, 0.24);
+    transition: var(--transition);
+}
+
+.travel-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgba(10, 132, 255, 0.28);
+}
+
+.travel-link-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.travel-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+.travel-icon i,
+.travel-arrow {
+    color: white;
+}
+
+.travel-label,
+.travel-title {
+    display: block;
+}
+
+.travel-label {
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0.82;
+    margin-bottom: 2px;
+}
+
+.travel-title {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.travel-arrow {
+    flex: 0 0 auto;
+    margin-left: 14px;
+}
+
 .premium-btn {
     background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
     color: white !important;
@@ -344,6 +412,7 @@ body {
 .delay-3 { animation-delay: 0.3s; }
 .delay-4 { animation-delay: 0.4s; }
 .delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
 
 /* Modal Styles */
 .modal {
