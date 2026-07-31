@@ -87,6 +87,14 @@ body {
     text-transform: lowercase;
 }
 
+.profile-intro {
+    max-width: 410px;
+    margin: 8px auto 14px;
+    color: #636366;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
 /* Social Icons */
 .social-icons {
     display: flex;
