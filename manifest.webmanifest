@@ -1,0 +1,28 @@
+{
+    "name": "NHẬT MINH marcom",
+    "short_name": "MINH marcom",
+    "description": "Kết nối với Lâm Nhật Minh về Marketing, AI, Vibe Coding và các sản phẩm số.",
+    "id": "/",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#FFFFFF",
+    "theme_color": "#111827",
+    "lang": "vi",
+    "categories": ["business", "productivity", "social"],
+    "icons": [
+        {
+            "src": "assets/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

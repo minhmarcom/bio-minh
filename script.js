@@ -1,3 +1,16 @@
+let deferredInstallPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    document.getElementById('install-app')?.removeAttribute('hidden');
+});
+
+window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    document.getElementById('install-app')?.setAttribute('hidden', '');
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     // --- DÁN URL GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY ---
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxfwoEyv7tM-RFSuw9zuOcwYaLuqT-3SALStRkEMom7_sLPNnrstCUrI5NF5tBOHrly/exec";
@@ -51,6 +64,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const enterpriseOpen = document.getElementById('enterprise-open');
     const enterpriseClose = document.getElementById('enterprise-close');
+    const installAppBtn = document.getElementById('install-app');
+    const appToast = document.getElementById('app-toast');
+    let toastTimer;
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
+    if (isIos && !isStandalone) installAppBtn?.removeAttribute('hidden');
+
+    function showAppToast(message) {
+        if (!appToast) return;
+        appToast.textContent = message;
+        appToast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => appToast.classList.remove('show'), 2600);
+    }
+
+    installAppBtn?.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) {
+            showAppToast(isIos
+                ? 'Chạm Chia sẻ, sau đó chọn “Thêm vào MH chính”.'
+                : 'Mở menu trình duyệt và chọn “Cài đặt ứng dụng”.');
+            return;
+        }
+
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        installAppBtn.setAttribute('hidden', '');
+    });
+
+    document.querySelectorAll('.footer-nav .nav-item').forEach((item) => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.footer-nav .nav-item').forEach((navItem) => navItem.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+
+    window.addEventListener('offline', () => showAppToast('Bạn đang ngoại tuyến. Nội dung đã lưu vẫn có thể xem.'));
+    window.addEventListener('online', () => showAppToast('Đã kết nối lại Internet.'));
 
     paymentOpen.addEventListener('click', () => {
         paymentModal.classList.add('active');
@@ -635,4 +687,10 @@ document.addEventListener('DOMContentLoaded', () => {
             header.style.opacity = '1';
         }
     });
+
+    if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
+        navigator.serviceWorker.register('./service-worker.js').catch((error) => {
+            console.log('Service worker registration failed:', error);
+        });
+    }
 });
