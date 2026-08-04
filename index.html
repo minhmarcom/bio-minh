@@ -235,7 +235,7 @@
         </section>
 
         <!-- Links List -->
-        <section class="services-section animate delay-5" aria-labelledby="services-title">
+        <section class="services-section animate delay-5" id="services" aria-labelledby="services-title">
             <div class="section-heading">
                 <div>
                     <span>Đồng hành cùng MINH</span>
@@ -434,19 +434,33 @@
         </section>
 
         <!-- Sticky Footer -->
-        <footer class="footer-nav">
-            <a href="#top" class="nav-item active">
-                <i data-lucide="house" class="nav-icon"></i>
+        <footer class="footer-nav" aria-label="Điều hướng chính">
+            <a href="#top" class="nav-item active" aria-label="Trang chủ">
+                <span class="nav-icon-shell"><i data-lucide="house" class="nav-icon"></i></span>
                 <span>Trang chủ</span>
             </a>
-            
-            <button class="qr-btn" id="qr-open" type="button" aria-label="Mở mã QR">
-                <i data-lucide="qr-code"></i>
+
+            <a href="#services" class="nav-item" aria-label="Dịch vụ">
+                <span class="nav-icon-shell"><i data-lucide="blocks" class="nav-icon"></i></span>
+                <span>Dịch vụ</span>
+            </a>
+
+            <button class="nav-item qr-btn" id="qr-open" type="button" aria-label="Lưu danh thiếp MINH marcom">
+                <span class="nav-primary-icon">
+                    <i data-lucide="qr-code"></i>
+                    <i data-lucide="plus" class="nav-primary-badge"></i>
+                </span>
+                <span>Danh thiếp</span>
             </button>
 
-            <a href="#projects" class="nav-item">
-                <i data-lucide="layout-grid" class="nav-icon"></i>
+            <a href="#projects" class="nav-item" aria-label="Dự án">
+                <span class="nav-icon-shell"><i data-lucide="layout-grid" class="nav-icon"></i></span>
                 <span>Dự án</span>
+            </a>
+
+            <a href="https://zalo.me/0584556556" target="_blank" rel="noopener noreferrer" class="nav-item" aria-label="Nhắn Zalo">
+                <span class="nav-icon-shell"><i data-lucide="message-circle-more" class="nav-icon"></i></span>
+                <span>Zalo</span>
             </a>
         </footer>
     </div>
@@ -462,16 +476,6 @@
             <div class="certificate-modal-image">
                 <img id="certificate-preview" src="" alt="">
             </div>
-        </div>
-    </div>
-
-    <!-- QR Modal -->
-    <div class="modal" id="qr-modal">
-        <div class="modal-content">
-            <h3>Quét mã QR</h3>
-            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Để xem trên điện thoại hoặc chia sẻ</p>
-            <img src="assets/QR-MINH%20BIO.png" alt="QR Code" class="qr-image">
-            <div class="close-modal" id="qr-close">Đóng</div>
         </div>
     </div>
 

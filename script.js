@@ -22,8 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ------------------------------------------------
 
     const qrOpen = document.getElementById('qr-open');
-    const qrClose = document.getElementById('qr-close');
-    const qrModal = document.getElementById('qr-modal');
     const shareBtn = document.getElementById('share-btn');
 
     const paymentOpen = document.getElementById('payment-open');
@@ -657,7 +655,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close on click outside
     window.addEventListener('click', (e) => {
-        if (e.target === qrModal) qrModal.classList.remove('active');
         if (e.target === paymentModal) {
             paymentModal.classList.remove('active');
             stopPaymentPolling();
@@ -691,24 +688,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Save Contact (VCard) Logic
+    // Save a complete vCard so mobile browsers can open the native contact flow.
     const saveBtn = document.getElementById('save-contact-btn');
-    saveBtn.addEventListener('click', (e) => {
+    function saveContact(e) {
         e.preventDefault();
-        const vcard = "BEGIN:VCARD\n" +
-                      "VERSION:3.0\n" +
-                      "FN:MINH marcom\n" +
-                      "TEL;TYPE=CELL:0584556556\n" +
-                      "END:VCARD";
-        
-        const blob = new Blob([vcard], { type: "text/vcard" });
+        const vcard = [
+            'BEGIN:VCARD',
+            'VERSION:3.0',
+            'N:Minh;Lam Nhat;;;',
+            'FN:Lâm Nhật Minh (MINH marcom)',
+            'ORG:NHẬT MINH marcom',
+            'TITLE:Marketing & AI Consultant',
+            'TEL;TYPE=CELL:+84584556556',
+            'EMAIL;TYPE=INTERNET:hi@lnm.vn',
+            'URL:https://lnm.vn/',
+            'X-SOCIALPROFILE;TYPE=facebook:https://www.facebook.com/nhatminh1911/',
+            'X-SOCIALPROFILE;TYPE=zalo:https://zalo.me/0584556556',
+            'NOTE:Marketing\, AI\, tự động hóa và phát triển sản phẩm số.',
+            'END:VCARD'
+        ].join('\r\n');
+
+        const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
         const url = window.URL.createObjectURL(blob);
         const newLink = document.createElement('a');
         newLink.href = url;
-        newLink.setAttribute('download', 'MINH_marcom.vcf');
+        newLink.setAttribute('download', 'Lam-Nhat-Minh-MINH-marcom.vcf');
+        document.body.appendChild(newLink);
         newLink.click();
-        window.URL.revokeObjectURL(url);
-    });
+        newLink.remove();
+        window.setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+        showAppToast('Đang mở danh thiếp để lưu vào điện thoại.');
+    }
+
+    saveBtn?.addEventListener('click', saveContact);
+    qrOpen?.addEventListener('click', saveContact);
 
     // Add scroll effect to header
     window.addEventListener('scroll', () => {
