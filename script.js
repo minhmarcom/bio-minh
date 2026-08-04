@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentClose = document.getElementById('payment-close');
     const paymentModal = document.getElementById('payment-modal');
     const enterpriseModal = document.getElementById('enterprise-modal');
+    const certificateModal = document.getElementById('certificate-modal');
+    const certificatePreview = document.getElementById('certificate-preview');
+    const certificateModalTitle = document.getElementById('certificate-modal-title');
+    const certificateClose = document.getElementById('certificate-close');
     
     // Steps containers
     const benefitsStep = document.getElementById('benefits-step');
@@ -120,6 +124,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     enterpriseClose.addEventListener('click', () => {
         enterpriseModal.classList.remove('active');
+    });
+
+    function closeCertificateModal() {
+        certificateModal?.classList.remove('active');
+        certificateModal?.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+    }
+
+    document.querySelectorAll('.certificate-card').forEach((card) => {
+        card.addEventListener('click', () => {
+            const image = card.dataset.certificateImage;
+            const title = card.dataset.certificateTitle || 'Chứng nhận';
+            certificatePreview.src = image;
+            certificatePreview.alt = `Chứng nhận ${title} của Lâm Nhật Minh`;
+            certificateModalTitle.textContent = title;
+            certificateModal.classList.add('active');
+            certificateModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+            certificateClose.focus();
+        });
+    });
+
+    certificateClose?.addEventListener('click', closeCertificateModal);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && certificateModal?.classList.contains('active')) {
+            closeCertificateModal();
+        }
     });
 
     startRegisterBtn.addEventListener('click', () => {
@@ -631,6 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
             stopPaymentPolling();
         }
         if (e.target === enterpriseModal) enterpriseModal.classList.remove('active');
+        if (e.target === certificateModal) closeCertificateModal();
     });
 
     // Share Logic

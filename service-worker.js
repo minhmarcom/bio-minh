@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v7';
+const CACHE_NAME = 'minh-marcom-v8';
 const APP_SHELL = [
     './',
     './index.html',
@@ -18,6 +18,11 @@ const APP_SHELL = [
     './assets/projects/natus-clean.png',
     './assets/projects/vicatra.jpg',
     './assets/projects/the-gioi-chay.webp',
+    './assets/certificates/marketing-with-canva.png',
+    './assets/certificates/canva-for-work.png',
+    './assets/certificates/human-centered-design.png',
+    './assets/certificates/ai-in-the-classroom.png',
+    './assets/certificates/accredible-certificate.png',
     './assets/icons/icon-192.png',
     './assets/icons/icon-512.png'
 ];

@@ -45,7 +45,7 @@
         "url": "https://lnm.vn/",
         "name": "NHẬT MINH marcom - Lâm Nhật Minh",
         "inLanguage": "vi-VN",
-        "dateModified": "2026-08-02T15:36:20+07:00",
+        "dateModified": "2026-08-04T09:31:43+07:00",
         "mainEntity": {
             "@type": "Person",
             "@id": "https://lnm.vn/#lam-nhat-minh",
@@ -67,6 +67,38 @@
                 "Tự động hóa",
                 "Truyền thông số",
                 "Phát triển sản phẩm số"
+            ],
+            "hasCredential": [
+                {
+                    "@type": "EducationalOccupationalCredential",
+                    "name": "Marketing with Canva",
+                    "credentialCategory": "Certificate",
+                    "recognizedBy": { "@type": "Organization", "name": "Canva Design School" }
+                },
+                {
+                    "@type": "EducationalOccupationalCredential",
+                    "name": "Canva for Work",
+                    "credentialCategory": "Certificate",
+                    "recognizedBy": { "@type": "Organization", "name": "Canva Design School" }
+                },
+                {
+                    "@type": "EducationalOccupationalCredential",
+                    "name": "The Field Guide to Human-Centered Design",
+                    "credentialCategory": "Certificate",
+                    "recognizedBy": { "@type": "Organization", "name": "Canva Design School" }
+                },
+                {
+                    "@type": "EducationalOccupationalCredential",
+                    "name": "AI in the Classroom",
+                    "credentialCategory": "Certificate",
+                    "recognizedBy": { "@type": "Organization", "name": "Canva Design School" }
+                },
+                {
+                    "@type": "EducationalOccupationalCredential",
+                    "name": "Gemini Certified Educator",
+                    "credentialCategory": "Professional Certificate",
+                    "recognizedBy": { "@type": "Organization", "name": "Google for Education" }
+                }
             ],
             "sameAs": [
                 "https://www.facebook.com/nhatminh1911/",
@@ -349,6 +381,43 @@
             </div>
         </section>
 
+        <section class="certificates-section" aria-labelledby="certificates-title">
+            <div class="certificates-heading">
+                <div>
+                    <span>Học tập liên tục</span>
+                    <h2 id="certificates-title">Chứng nhận & năng lực</h2>
+                </div>
+                <span class="certificate-count">05</span>
+            </div>
+
+            <div class="certificate-grid">
+                <button class="certificate-card" type="button" data-certificate-image="assets/certificates/marketing-with-canva.png" data-certificate-title="Marketing with Canva">
+                    <span class="certificate-image"><img src="assets/certificates/marketing-with-canva.png" alt="Chứng nhận Marketing with Canva của Lâm Nhật Minh" loading="lazy"></span>
+                    <span class="certificate-info"><strong>Marketing with Canva</strong><small>Canva Design School</small></span>
+                </button>
+
+                <button class="certificate-card" type="button" data-certificate-image="assets/certificates/canva-for-work.png" data-certificate-title="Canva for Work">
+                    <span class="certificate-image"><img src="assets/certificates/canva-for-work.png" alt="Chứng nhận Canva for Work của Lâm Nhật Minh" loading="lazy"></span>
+                    <span class="certificate-info"><strong>Canva for Work</strong><small>Canva Design School</small></span>
+                </button>
+
+                <button class="certificate-card" type="button" data-certificate-image="assets/certificates/human-centered-design.png" data-certificate-title="Human-Centered Design">
+                    <span class="certificate-image"><img src="assets/certificates/human-centered-design.png" alt="Chứng nhận Human-Centered Design của Lâm Nhật Minh" loading="lazy"></span>
+                    <span class="certificate-info"><strong>Human-Centered Design</strong><small>Canva Design School</small></span>
+                </button>
+
+                <button class="certificate-card" type="button" data-certificate-image="assets/certificates/ai-in-the-classroom.png" data-certificate-title="AI in the Classroom">
+                    <span class="certificate-image"><img src="assets/certificates/ai-in-the-classroom.png" alt="Chứng nhận AI in the Classroom của Lâm Nhật Minh" loading="lazy"></span>
+                    <span class="certificate-info"><strong>AI in the Classroom</strong><small>Canva Design School</small></span>
+                </button>
+
+                <button class="certificate-card certificate-card-featured" type="button" data-certificate-image="assets/certificates/accredible-certificate.png" data-certificate-title="Gemini Certified Educator">
+                    <span class="certificate-image"><img src="assets/certificates/accredible-certificate.png" alt="Chứng nhận Gemini Certified Educator của Lâm Nhật Minh" loading="lazy"></span>
+                    <span class="certificate-info"><strong>Gemini Certified Educator</strong><small>Google for Education · Hiệu lực đến 2028</small></span>
+                </button>
+            </div>
+        </section>
+
         <section class="project-cta" aria-labelledby="project-cta-title">
             <div class="cta-visual" aria-hidden="true">
                 <i data-lucide="rocket"></i>
@@ -383,6 +452,18 @@
     </div>
 
     <div class="app-toast" id="app-toast" role="status" aria-live="polite"></div>
+
+    <div class="modal certificate-modal" id="certificate-modal" aria-hidden="true">
+        <div class="certificate-modal-content" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
+            <div class="certificate-modal-header">
+                <h2 id="certificate-modal-title">Chứng nhận</h2>
+                <button id="certificate-close" type="button" aria-label="Đóng chứng nhận"><i data-lucide="x"></i></button>
+            </div>
+            <div class="certificate-modal-image">
+                <img id="certificate-preview" src="" alt="">
+            </div>
+        </div>
+    </div>
 
     <!-- QR Modal -->
     <div class="modal" id="qr-modal">
