@@ -7,7 +7,7 @@
     <meta name="description" content="Trang chính thức của Lâm Nhật Minh, còn được biết đến với tên NHẬT MINH marcom và MINH marcom. Kết nối, tư vấn Marketing, AI và xem các dự án số đã triển khai.">
     <meta name="author" content="Lâm Nhật Minh">
     <meta name="robots" content="index, follow, max-image-preview:large">
-    <meta name="theme-color" content="#111827">
+    <meta name="theme-color" content="#F5F7FB">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -160,6 +160,7 @@
     </script>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modern.css">
     <!-- Google Font: Be Vietnam Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -169,64 +170,62 @@
 </head>
 <body>
     <div class="container" id="top">
-        <div class="app-bar">
-            <a class="app-identity" href="#top" aria-label="Về đầu trang">
-                <img src="assets/avatar.png" alt="" aria-hidden="true">
-                <span>
-                    <strong>MINH marcom</strong>
-                    <small><i></i> Đang hoạt động</small>
-                </span>
-            </a>
-            <button class="icon-button install-app" id="install-app" type="button" aria-label="Cài ứng dụng" title="Cài ứng dụng" hidden>
-                <i data-lucide="download"></i>
-            </button>
-        </div>
+        <header class="home-dashboard">
+            <div class="app-bar">
+                <a class="app-identity app-greeting" href="#top" aria-label="Về đầu trang">
+                    <img src="assets/avatar.png" alt="" aria-hidden="true">
+                    <span>
+                        <small>Xin chào, mình là</small>
+                        <strong>MINH marcom</strong>
+                    </span>
+                </a>
+                <div class="app-bar-actions">
+                    <button class="icon-button" id="share-btn" type="button" aria-label="Chia sẻ hồ sơ" title="Chia sẻ">
+                        <i data-lucide="share-2"></i>
+                    </button>
+                    <button class="icon-button install-app" id="install-app" type="button" aria-label="Cài ứng dụng" title="Cài ứng dụng" hidden>
+                        <i data-lucide="download"></i>
+                    </button>
+                </div>
+            </div>
 
-        <!-- Header Image -->
-        <header class="header">
-            <img src="assets/avatar.png" alt="Lâm Nhật Minh - MINH marcom" class="bg-image">
-            <div class="header-shade"></div>
-            <span class="hero-badge">Marketing · AI · Sản phẩm số</span>
+            <section class="profile-spotlight" aria-labelledby="profile-name">
+                <div class="spotlight-copy">
+                    <span class="spotlight-label">Marketing & AI Consultant</span>
+                    <h1 id="profile-name">Lâm Nhật Minh</h1>
+                    <p>Biến ý tưởng Marketing, AI và tự động hóa thành sản phẩm số có thể sử dụng thật.</p>
+                    <div class="spotlight-actions">
+                        <a href="https://zalo.me/0584556556" target="_blank" rel="noopener noreferrer">
+                            <i data-lucide="message-circle"></i>
+                            <span>Trao đổi ngay</span>
+                        </a>
+                        <a href="mailto:hi@lnm.vn" aria-label="Gửi email cho Lâm Nhật Minh">
+                            <i data-lucide="mail"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="spotlight-portrait">
+                    <img src="assets/avatar.png" alt="Lâm Nhật Minh - MINH marcom">
+                </div>
+            </section>
+
+            <nav class="category-tabs" aria-label="Danh mục nội dung">
+                <a href="#services">
+                    <span><i data-lucide="sparkles"></i></span>
+                    <strong>Dịch vụ</strong>
+                </a>
+                <a href="#projects">
+                    <span><i data-lucide="layout-grid"></i></span>
+                    <strong>Dự án</strong>
+                </a>
+                <a href="#certificates">
+                    <span><i data-lucide="badge-check"></i></span>
+                    <strong>Chứng nhận</strong>
+                </a>
+            </nav>
         </header>
 
-        <!-- Profile Info -->
-        <section class="profile-section">
-            <div class="avatar-wrapper animate delay-1">
-                <img src="assets/avatar.png" alt="Avatar" class="avatar">
-            </div>
-            <h1 class="name-h1 animate delay-2">NHẬT MINH <span>marcom</span></h1>
-            <p class="profile-role animate delay-2">Marketing & AI Consultant</p>
-            <p class="profile-intro animate delay-2">
-                <span>Lâm Nhật Minh, được biết đến với tên MINH marcom.</span>
-                <span>Triển khai Marketing, AI, tự động hóa và sản phẩm số.</span>
-            </p>
-            
-            <div class="profile-social-links animate delay-3" aria-label="Mạng xã hội">
-                <a href="https://www.facebook.com/nhatminh1911/" target="_blank" rel="noopener noreferrer">Facebook</a>
-                <span aria-hidden="true"></span>
-                <a href="https://www.threads.com/@nhatminhmarcom" target="_blank" rel="noopener noreferrer">Threads</a>
-            </div>
-
-            <div class="quick-actions animate delay-4" aria-label="Hành động nhanh">
-                <a class="quick-action quick-action-primary" href="https://zalo.me/0584556556" target="_blank" rel="noopener noreferrer">
-                    <span><i data-lucide="message-circle"></i></span>
-                    <small>Nhắn Zalo</small>
-                </a>
-                <a class="quick-action" href="mailto:hi@lnm.vn">
-                    <span><i data-lucide="mail"></i></span>
-                    <small>Email</small>
-                </a>
-                <button class="quick-action" id="share-btn" type="button">
-                    <span><i data-lucide="share-2"></i></span>
-                    <small>Chia sẻ</small>
-                </button>
-            </div>
-            <a class="flow-cue" href="#services" aria-label="Xem dịch vụ và sản phẩm">
-                <i data-lucide="chevron-down"></i>
-            </a>
-        </section>
-
-        <!-- Links List -->
+        <main class="app-content">
         <section class="services-section animate delay-5" id="services" aria-labelledby="services-title">
             <div class="section-heading">
                 <div>
@@ -454,6 +453,7 @@
                 <i data-lucide="message-circle"></i>
             </a>
         </section>
+        </main>
 
         <!-- Sticky Footer -->
         <footer class="footer-nav" aria-label="Điều hướng chính">

@@ -1,8 +1,9 @@
-const CACHE_NAME = 'minh-marcom-v11';
+const CACHE_NAME = 'minh-marcom-v12';
 const APP_SHELL = [
     './',
     './index.html',
     './style.css',
+    './modern.css',
     './script.js',
     './manifest.webmanifest',
     './assets/vendor/lucide.min.js',

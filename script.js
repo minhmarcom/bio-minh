@@ -723,15 +723,9 @@ document.addEventListener('DOMContentLoaded', () => {
     saveBtn?.addEventListener('click', saveContact);
     qrOpen?.addEventListener('click', saveContact);
 
-    // Add scroll effect to header
+    // Keep the mobile app bar visually separated as content scrolls underneath.
     window.addEventListener('scroll', () => {
-        const header = document.querySelector('.header');
-        const scroll = window.scrollY;
-        if (scroll > 50) {
-            header.style.opacity = '0.8';
-        } else {
-            header.style.opacity = '1';
-        }
+        document.querySelector('.app-bar')?.classList.toggle('is-scrolled', window.scrollY > 16);
     });
 
     if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
