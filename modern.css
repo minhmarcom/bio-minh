@@ -11,6 +11,12 @@
     --modern-yellow: #FFE49A;
 }
 
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     background: #E7EBF2;
     color: var(--modern-ink);
@@ -18,10 +24,34 @@ body {
 
 .container {
     max-width: 520px;
+    height: 100dvh;
+    min-height: 0;
     padding-bottom: calc(92px + env(safe-area-inset-bottom));
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
     background: var(--modern-bg);
     box-shadow: 0 0 44px rgba(24, 34, 52, 0.12);
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}
+
+.app-view {
+    display: none !important;
+}
+
+.app-view.is-active {
+    display: block !important;
+    animation: appViewIn 220ms ease both;
+}
+
+@keyframes appViewIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .home-dashboard {
@@ -251,9 +281,55 @@ body {
     display: block;
 }
 
+.view-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    min-height: 64px;
+    margin: -28px -18px 22px;
+    padding: max(11px, env(safe-area-inset-top)) 18px 11px;
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--modern-line);
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(18px);
+}
+
+.view-topbar > a {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: #F2F4F8;
+    color: #343A46;
+}
+
+.view-topbar > a svg {
+    width: 18px;
+    height: 18px;
+}
+
+.view-topbar > strong {
+    overflow: hidden;
+    color: var(--modern-ink);
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.view-topbar > span {
+    color: var(--modern-muted);
+    font-size: 9px;
+    font-weight: 700;
+}
+
 .services-section,
 .projects-feature,
 .certificates-section {
+    min-height: calc(100dvh - 70px - env(safe-area-inset-bottom));
     margin: 0;
     padding: 28px 18px;
     border: 0;
@@ -501,6 +577,10 @@ body {
     color: #FFFFFF;
 }
 
+.project-cta.app-view.is-active {
+    margin-top: 0;
+}
+
 .cta-person strong,
 .cta-copy h2 {
     color: #FFFFFF;
@@ -536,6 +616,10 @@ body {
 .footer-nav .nav-item {
     min-height: 54px;
     color: #788295;
+}
+
+.footer-nav .nav-item.active {
+    color: #356DF3;
 }
 
 .nav-icon-shell {
@@ -578,5 +662,11 @@ body {
 
     .category-tabs strong {
         font-size: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-view.is-active {
+        animation: none;
     }
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v12';
+const CACHE_NAME = 'minh-marcom-v13';
 const APP_SHELL = [
     './',
     './index.html',
@@ -25,7 +25,9 @@ const APP_SHELL = [
     './assets/certificates/ai-in-the-classroom.png',
     './assets/certificates/accredible-certificate.png',
     './assets/icons/icon-192.png',
-    './assets/icons/icon-512.png'
+    './assets/icons/icon-512.png',
+    './assets/screenshots/home.png',
+    './assets/screenshots/services.png'
 ];
 
 self.addEventListener('install', (event) => {

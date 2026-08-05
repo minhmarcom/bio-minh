@@ -170,9 +170,9 @@
 </head>
 <body>
     <div class="container" id="top">
-        <header class="home-dashboard">
+        <header class="home-dashboard app-view is-active" id="home" data-view="home">
             <div class="app-bar">
-                <a class="app-identity app-greeting" href="#top" aria-label="Về đầu trang">
+                <a class="app-identity app-greeting" href="#home" aria-label="Về màn hình chính">
                     <img src="assets/avatar.png" alt="" aria-hidden="true">
                     <span>
                         <small>Xin chào, mình là</small>
@@ -226,7 +226,12 @@
         </header>
 
         <main class="app-content">
-        <section class="services-section animate delay-5" id="services" aria-labelledby="services-title">
+        <section class="services-section app-view" id="services" data-view="services" aria-labelledby="services-title">
+            <div class="view-topbar">
+                <a href="#home" aria-label="Về màn hình chính"><i data-lucide="chevron-left"></i></a>
+                <strong>Dịch vụ</strong>
+                <span>02 lựa chọn</span>
+            </div>
             <div class="section-heading">
                 <div>
                     <span>Chọn điều phù hợp với bạn</span>
@@ -296,7 +301,12 @@
             </a>
         </section>
 
-        <section class="projects-feature animate delay-6" id="projects" aria-labelledby="projects-title">
+        <section class="projects-feature app-view" id="projects" data-view="projects" aria-labelledby="projects-title">
+            <div class="view-topbar">
+                <a href="#home" aria-label="Về màn hình chính"><i data-lucide="chevron-left"></i></a>
+                <strong>Dự án</strong>
+                <span>06 sản phẩm</span>
+            </div>
             <div class="projects-heading">
                 <div>
                     <span class="projects-eyebrow">06 sản phẩm đã vận hành</span>
@@ -398,7 +408,12 @@
             </div>
         </section>
 
-        <section class="certificates-section" id="certificates" aria-labelledby="certificates-title">
+        <section class="certificates-section app-view" id="certificates" data-view="certificates" aria-labelledby="certificates-title">
+            <div class="view-topbar">
+                <a href="#home" aria-label="Về màn hình chính"><i data-lucide="chevron-left"></i></a>
+                <strong>Chứng nhận</strong>
+                <span>05 chứng nhận</span>
+            </div>
             <div class="certificates-heading">
                 <div>
                     <span>Học để làm tốt hơn mỗi ngày</span>
@@ -435,7 +450,7 @@
             </div>
         </section>
 
-        <section class="project-cta" aria-labelledby="project-cta-title">
+        <section class="project-cta app-view is-active" data-view="home" aria-labelledby="project-cta-title">
             <div class="cta-person">
                 <img src="assets/avatar.png" alt="Lâm Nhật Minh">
                 <span>
@@ -457,12 +472,12 @@
 
         <!-- Sticky Footer -->
         <footer class="footer-nav" aria-label="Điều hướng chính">
-            <a href="#top" class="nav-item active" aria-label="Trang chủ">
+            <a href="#home" class="nav-item active" data-nav-view="home" aria-label="Trang chủ">
                 <span class="nav-icon-shell"><i data-lucide="house" class="nav-icon"></i></span>
                 <span>Trang chủ</span>
             </a>
 
-            <a href="#services" class="nav-item" aria-label="Dịch vụ">
+            <a href="#services" class="nav-item" data-nav-view="services" aria-label="Dịch vụ">
                 <span class="nav-icon-shell"><i data-lucide="blocks" class="nav-icon"></i></span>
                 <span>Dịch vụ</span>
             </a>
@@ -475,7 +490,7 @@
                 <span>Danh thiếp</span>
             </button>
 
-            <a href="#projects" class="nav-item" aria-label="Dự án">
+            <a href="#projects" class="nav-item" data-nav-view="projects" aria-label="Dự án">
                 <span class="nav-icon-shell"><i data-lucide="layout-grid" class="nav-icon"></i></span>
                 <span>Dự án</span>
             </a>

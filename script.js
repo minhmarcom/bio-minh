@@ -96,12 +96,45 @@ document.addEventListener('DOMContentLoaded', () => {
         installAppBtn.setAttribute('hidden', '');
     });
 
-    document.querySelectorAll('.footer-nav .nav-item').forEach((item) => {
-        item.addEventListener('click', () => {
-            document.querySelectorAll('.footer-nav .nav-item').forEach((navItem) => navItem.classList.remove('active'));
-            item.classList.add('active');
+    const appContainer = document.querySelector('.container');
+    const appViews = [...document.querySelectorAll('[data-view]')];
+    const validViews = new Set(appViews.map((view) => view.dataset.view));
+
+    function showAppView(requestedView, updateHistory = false) {
+        const viewName = validViews.has(requestedView) ? requestedView : 'home';
+
+        appViews.forEach((view) => {
+            const isActive = view.dataset.view === viewName;
+            view.classList.toggle('is-active', isActive);
+            view.setAttribute('aria-hidden', String(!isActive));
+        });
+
+        document.body.dataset.currentView = viewName;
+        document.querySelectorAll('[data-nav-view]').forEach((item) => {
+            item.classList.toggle('active', item.dataset.navView === viewName);
+        });
+
+        if (updateHistory && window.location.hash !== `#${viewName}`) {
+            window.history.pushState({ view: viewName }, '', `#${viewName}`);
+        }
+
+        appContainer?.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+            const viewName = link.getAttribute('href').slice(1);
+            if (!validViews.has(viewName)) return;
+            event.preventDefault();
+            showAppView(viewName, true);
         });
     });
+
+    window.addEventListener('popstate', () => {
+        showAppView(window.location.hash.slice(1) || 'home');
+    });
+
+    showAppView(window.location.hash.slice(1) || 'home');
 
     window.addEventListener('offline', () => showAppToast('Bạn đang ngoại tuyến. Nội dung đã lưu vẫn có thể xem.'));
     window.addEventListener('online', () => showAppToast('Đã kết nối lại Internet.'));
@@ -724,8 +757,8 @@ document.addEventListener('DOMContentLoaded', () => {
     qrOpen?.addEventListener('click', saveContact);
 
     // Keep the mobile app bar visually separated as content scrolls underneath.
-    window.addEventListener('scroll', () => {
-        document.querySelector('.app-bar')?.classList.toggle('is-scrolled', window.scrollY > 16);
+    appContainer?.addEventListener('scroll', () => {
+        document.querySelector('.app-bar')?.classList.toggle('is-scrolled', appContainer.scrollTop > 16);
     });
 
     if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
