@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v15';
+const CACHE_NAME = 'minh-marcom-v16-reset';
 const APP_SHELL = [
     './',
     './index.html',
