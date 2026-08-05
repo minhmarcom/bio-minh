@@ -45,7 +45,7 @@
         "url": "https://lnm.vn/",
         "name": "NHẬT MINH marcom - Lâm Nhật Minh",
         "inLanguage": "vi-VN",
-        "dateModified": "2026-08-04T09:31:43+07:00",
+        "dateModified": "2026-08-05T09:00:00+07:00",
         "mainEntity": {
             "@type": "Person",
             "@id": "https://lnm.vn/#lam-nhat-minh",
@@ -184,9 +184,9 @@
 
         <!-- Header Image -->
         <header class="header">
-            <img src="assets/background.jpg" alt="Không gian làm việc của NHẬT MINH marcom" class="bg-image">
+            <img src="assets/avatar.png" alt="Lâm Nhật Minh - MINH marcom" class="bg-image">
             <div class="header-shade"></div>
-            <span class="hero-badge"><i data-lucide="sparkles"></i> Marketing · AI · Sản phẩm số</span>
+            <span class="hero-badge">Marketing · AI · Sản phẩm số</span>
         </header>
 
         <!-- Profile Info -->
@@ -201,89 +201,107 @@
                 <span>Triển khai Marketing, AI, tự động hóa và sản phẩm số.</span>
             </p>
             
-            <!-- Social Icons -->
-            <div class="social-icons animate delay-3">
-                <a href="https://www.facebook.com/nhatminh1911/" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Facebook của NHẬT MINH marcom">
-                    <img src="assets/icon%20facebook.png" alt="Facebook NHẬT MINH marcom">
-                </a>
-                <a href="https://zalo.me/0584556556" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Zalo của Lâm Nhật Minh">
-                    <img src="assets/icon%20zalo.png" alt="Zalo Lâm Nhật Minh">
-                </a>
-                <a href="https://www.threads.com/@nhatminhmarcom" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Threads của MINH marcom">
-                    <img src="assets/icon%20threads.png" alt="Threads MINH marcom">
-                </a>
+            <div class="profile-social-links animate delay-3" aria-label="Mạng xã hội">
+                <a href="https://www.facebook.com/nhatminh1911/" target="_blank" rel="noopener noreferrer">Facebook</a>
+                <span aria-hidden="true"></span>
+                <a href="https://www.threads.com/@nhatminhmarcom" target="_blank" rel="noopener noreferrer">Threads</a>
             </div>
 
             <div class="quick-actions animate delay-4" aria-label="Hành động nhanh">
-                <button class="quick-action" id="share-btn" type="button">
-                    <span><i data-lucide="share-2"></i></span>
-                    <small>Chia sẻ</small>
-                </button>
-                <button class="quick-action" id="save-contact-btn" type="button">
-                    <span><i data-lucide="contact-round"></i></span>
-                    <small>Lưu liên hệ</small>
-                </button>
+                <a class="quick-action quick-action-primary" href="https://zalo.me/0584556556" target="_blank" rel="noopener noreferrer">
+                    <span><i data-lucide="message-circle"></i></span>
+                    <small>Nhắn Zalo</small>
+                </a>
                 <a class="quick-action" href="mailto:hi@lnm.vn">
                     <span><i data-lucide="mail"></i></span>
                     <small>Email</small>
                 </a>
-                <a class="quick-action" href="https://zalo.me/0584556556" target="_blank" rel="noopener noreferrer">
-                    <span><i data-lucide="message-circle"></i></span>
-                    <small>Nhắn tin</small>
-                </a>
+                <button class="quick-action" id="share-btn" type="button">
+                    <span><i data-lucide="share-2"></i></span>
+                    <small>Chia sẻ</small>
+                </button>
             </div>
+            <a class="flow-cue" href="#services" aria-label="Xem dịch vụ và sản phẩm">
+                <i data-lucide="chevron-down"></i>
+            </a>
         </section>
 
         <!-- Links List -->
         <section class="services-section animate delay-5" id="services" aria-labelledby="services-title">
             <div class="section-heading">
                 <div>
-                    <span>Đồng hành cùng MINH</span>
-                    <h2 id="services-title">Chọn cách bạn muốn bắt đầu</h2>
+                    <span>Chọn điều phù hợp với bạn</span>
+                    <h2 id="services-title">Bạn muốn bắt đầu từ đâu?</h2>
                 </div>
-                <i data-lucide="blocks"></i>
             </div>
-            <div class="links-list">
-            <!-- Premium Button -->
-            <a href="javascript:void(0)" id="payment-open" class="link-item premium-btn">
-                <div class="link-leading">
-                    <span class="link-icon"><i data-lucide="sparkles"></i></span>
-                    <span class="link-copy"><strong>Cộng đồng Prompt AI</strong><small>Kho prompt thực chiến · 199k/năm</small></span>
-                </div>
-                <i data-lucide="chevron-right"></i>
-            </a>
 
-            <!-- Enterprise Button -->
-            <a href="javascript:void(0)" id="enterprise-open" class="link-item enterprise-btn">
-                <div class="link-leading">
-                    <span class="link-icon"><i data-lucide="briefcase-business"></i></span>
-                    <span class="link-copy"><strong>Tư vấn AI Doanh nghiệp</strong><small>Lộ trình ứng dụng thực tế · 4.999k</small></span>
-                </div>
-                <i data-lucide="chevron-right"></i>
-            </a>
+            <div class="pricing-list">
+                <button type="button" id="payment-open" class="pricing-card pricing-card-featured">
+                    <span class="pricing-card-top">
+                        <span class="pricing-icon"><i data-lucide="sparkles"></i></span>
+                        <span class="pricing-tag">Dành cho cá nhân</span>
+                    </span>
+                    <span class="pricing-copy">
+                        <strong>Cộng đồng Prompt AI</strong>
+                        <small>Kho prompt thực chiến và cộng đồng hỗ trợ trong 12 tháng.</small>
+                    </span>
+                    <span class="service-price"><strong>199.000đ</strong><small>/ năm</small></span>
+                    <span class="pricing-benefits">
+                        <span><i data-lucide="check"></i> Prompt cập nhật liên tục</span>
+                        <span><i data-lucide="check"></i> Vào group ngay sau thanh toán</span>
+                    </span>
+                    <span class="pricing-action">Tôi muốn tham gia <i data-lucide="arrow-right"></i></span>
+                </button>
 
-            <a href="https://zalo.me/g/s7jxcab2lvaaqfnx6apl" target="_blank" rel="noopener noreferrer" class="link-item">
-                <div class="link-leading">
-                    <span class="link-icon"><i data-lucide="users"></i></span>
-                    <span class="link-copy"><strong>Cộng đồng Học AI</strong><small>Tham gia miễn phí trên Zalo</small></span>
-                </div>
-                <i data-lucide="chevron-right"></i>
-            </a>
-            <a href="https://www.facebook.com/groups/2242526269439377" target="_blank" rel="noopener noreferrer" class="link-item">
-                <div class="link-leading">
-                    <span class="link-icon"><i data-lucide="book-open"></i></span>
-                    <span class="link-copy"><strong>Cộng đồng Thực chiến AI</strong><small>Chia sẻ kiến thức trên Facebook</small></span>
-                </div>
-                <i data-lucide="chevron-right"></i>
-            </a>
+                <button type="button" id="enterprise-open" class="pricing-card">
+                    <span class="pricing-card-top">
+                        <span class="pricing-icon"><i data-lucide="briefcase-business"></i></span>
+                        <span class="pricing-tag pricing-tag-neutral">Dành cho đội ngũ</span>
+                    </span>
+                    <span class="pricing-copy">
+                        <strong>Tư vấn ứng dụng AI</strong>
+                        <small>Phân tích nhu cầu, xây lộ trình và hướng dẫn đội ngũ triển khai.</small>
+                    </span>
+                    <span class="service-price"><strong>4.999.000đ</strong><small>/ gói</small></span>
+                    <span class="pricing-benefits">
+                        <span><i data-lucide="check"></i> Lộ trình theo hoạt động thực tế</span>
+                        <span><i data-lucide="check"></i> Prompt mẫu theo ngành</span>
+                    </span>
+                    <span class="pricing-action">Trao đổi nhu cầu <i data-lucide="arrow-right"></i></span>
+                </button>
             </div>
+
+            <div class="community-panel">
+                <div class="community-panel-heading">
+                    <div>
+                        <h3>Cộng đồng miễn phí</h3>
+                        <p>Chọn nền tảng bạn thường sử dụng.</p>
+                    </div>
+                    <i data-lucide="users-round"></i>
+                </div>
+                <div class="community-links">
+                    <a href="https://zalo.me/g/s7jxcab2lvaaqfnx6apl" target="_blank" rel="noopener noreferrer">
+                        <span><strong>Học AI</strong><small>Zalo</small></span>
+                        <i data-lucide="arrow-up-right"></i>
+                    </a>
+                    <a href="https://www.facebook.com/groups/2242526269439377" target="_blank" rel="noopener noreferrer">
+                        <span><strong>Thực chiến AI</strong><small>Facebook</small></span>
+                        <i data-lucide="arrow-up-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <a class="section-bridge" href="#projects">
+                <span><small>Tiếp theo</small><strong>Xem những sản phẩm đã chạy thật</strong></span>
+                <i data-lucide="arrow-down"></i>
+            </a>
         </section>
 
         <section class="projects-feature animate delay-6" id="projects" aria-labelledby="projects-title">
             <div class="projects-heading">
                 <div>
-                    <span class="projects-eyebrow">Portfolio · 06 sản phẩm</span>
-                    <h2 id="projects-title">Dự án đã thực hiện bằng Vibe Coding</h2>
+                    <span class="projects-eyebrow">06 sản phẩm đã vận hành</span>
+                    <h2 id="projects-title">Dự án thực hiện bằng Vibe Coding</h2>
                 </div>
                 <span class="projects-count" aria-label="6 dự án">06</span>
             </div>
@@ -381,11 +399,11 @@
             </div>
         </section>
 
-        <section class="certificates-section" aria-labelledby="certificates-title">
+        <section class="certificates-section" id="certificates" aria-labelledby="certificates-title">
             <div class="certificates-heading">
                 <div>
-                    <span>Học tập liên tục</span>
-                    <h2 id="certificates-title">Chứng nhận & năng lực</h2>
+                    <span>Học để làm tốt hơn mỗi ngày</span>
+                    <h2 id="certificates-title">Nền tảng chuyên môn</h2>
                 </div>
                 <span class="certificate-count">05</span>
             </div>
@@ -419,17 +437,21 @@
         </section>
 
         <section class="project-cta" aria-labelledby="project-cta-title">
-            <div class="cta-visual" aria-hidden="true">
-                <i data-lucide="rocket"></i>
+            <div class="cta-person">
+                <img src="assets/avatar.png" alt="Lâm Nhật Minh">
+                <span>
+                    <strong>Lâm Nhật Minh</strong>
+                    <small><i></i> Thường phản hồi trong ngày</small>
+                </span>
             </div>
             <div class="cta-copy">
-                <span>Sẵn sàng triển khai?</span>
-                <h2 id="project-cta-title">Đưa ý tưởng của bạn lên phiên bản chạy thật.</h2>
-                <p>Trao đổi trực tiếp về website, AI, tự động hóa hoặc sản phẩm số.</p>
+                <span>Có một ý tưởng cần người cùng làm?</span>
+                <h2 id="project-cta-title">Mình cùng trao đổi về điều bạn đang muốn thực hiện.</h2>
+                <p>Chia sẻ nhu cầu của bạn về website, Marketing, AI hoặc tự động hóa. Minh sẽ phản hồi bằng một hướng đi cụ thể.</p>
             </div>
             <a href="https://zalo.me/0584556556" target="_blank" rel="noopener noreferrer" class="cta-button">
-                <span>Trao đổi dự án</span>
-                <i data-lucide="arrow-up-right"></i>
+                <span>Nhắn Minh qua Zalo</span>
+                <i data-lucide="message-circle"></i>
             </a>
         </section>
 
