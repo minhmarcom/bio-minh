@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v13';
+const CACHE_NAME = 'minh-marcom-v15';
 const APP_SHELL = [
     './',
     './index.html',
@@ -12,6 +12,7 @@ const APP_SHELL = [
     './assets/icon facebook.png',
     './assets/icon zalo.png',
     './assets/icon threads.png',
+    './assets/chatbot/minh-chatbot.png',
     './assets/QR-MINH BIO.png',
     './assets/projects/nabaden-app.png',
     './assets/projects/tayninh-app.png',
