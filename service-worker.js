@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v16-reset';
+const CACHE_NAME = 'minh-marcom-v17-riviu';
 const APP_SHELL = [
     './',
     './index.html',
@@ -20,6 +20,7 @@ const APP_SHELL = [
     './assets/projects/natus-clean.png',
     './assets/projects/vicatra.jpg',
     './assets/projects/the-gioi-chay.webp',
+    './assets/projects/riviu-asia.jpg',
     './assets/certificates/marketing-with-canva.png',
     './assets/certificates/canva-for-work.png',
     './assets/certificates/human-centered-design.png',
