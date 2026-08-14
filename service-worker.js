@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v23-chatbot-dismiss';
+const CACHE_NAME = 'minh-marcom-v25-cross-platform-nav';
 const APP_SHELL = [
     './',
     './index.html',
