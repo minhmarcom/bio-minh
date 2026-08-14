@@ -1,13 +1,15 @@
-const CACHE_NAME = 'minh-marcom-v17-riviu';
+const CACHE_NAME = 'minh-marcom-v22-community-nav-fix';
 const APP_SHELL = [
     './',
     './index.html',
     './style.css',
     './modern.css',
+    './app-redesign.css',
     './script.js',
     './manifest.webmanifest',
     './assets/vendor/lucide.min.js',
     './assets/avatar.png',
+    './assets/avatar-clean.png',
     './assets/background.jpg',
     './assets/icon facebook.png',
     './assets/icon zalo.png',
