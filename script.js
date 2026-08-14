@@ -920,6 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotPanel = document.getElementById('chatbot-panel');
     const chatbotToggle = document.getElementById('chatbot-toggle');
     const chatbotClose = document.getElementById('chatbot-close');
+    const chatbotDismiss = document.getElementById('chatbot-dismiss');
     const chatbotForm = document.getElementById('chatbot-form');
     const chatbotInput = document.getElementById('chatbot-input');
     const chatbotMessages = document.getElementById('chatbot-messages');
@@ -927,6 +928,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotTypeText = document.getElementById('chatbot-type-text');
 
     if (chatbotWidget && chatbotToggle) {
+        let isChatbotDismissed = false;
+        try {
+            isChatbotDismissed = window.sessionStorage.getItem('minhChatbotDismissed') === '1';
+        } catch (error) {
+            isChatbotDismissed = false;
+        }
+        chatbotWidget.hidden = isChatbotDismissed;
+
         let isDragging = false;
         let startX = 0;
         let startY = 0;
@@ -983,7 +992,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function cycleTypewriter() {
-            if (chatbotWidget.classList.contains('is-open') || isDragging) return;
+            if (isChatbotDismissed || chatbotWidget.classList.contains('is-open') || isDragging) return;
             const message = calloutMessages[currentCalloutIndex];
             typeText(message, () => {
                 eraseText(() => {
@@ -1119,6 +1128,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chatbotClose?.addEventListener('click', closeChatPanel);
 
+        chatbotDismiss?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            isChatbotDismissed = true;
+            clearTimeout(typewriterTimer);
+            closeChatPanel();
+            chatbotWidget.hidden = true;
+            try {
+                window.sessionStorage.setItem('minhChatbotDismissed', '1');
+            } catch (error) {
+                // The widget still stays hidden for the current page view.
+            }
+        });
+
         // Close on click outside widget
         document.addEventListener('click', (e) => {
             if (chatbotWidget.classList.contains('is-open') && !chatbotWidget.contains(e.target)) {
@@ -1197,4 +1220,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
