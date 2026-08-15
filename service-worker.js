@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v25-cross-platform-nav';
+const CACHE_NAME = 'minh-marcom-v29-expertise-cloud';
 const APP_SHELL = [
     './',
     './index.html',
