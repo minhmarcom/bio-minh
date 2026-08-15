@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v29-expertise-cloud';
+const CACHE_NAME = 'minh-marcom-v33-half-tape';
 const APP_SHELL = [
     './',
     './index.html',
