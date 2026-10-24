@@ -1,7 +1,13 @@
-const CACHE_NAME = 'minh-marcom-v33-half-tape';
+const CACHE_NAME = 'minh-marcom-v34-multipage';
 const APP_SHELL = [
     './',
     './index.html',
+    './du-an/',
+    './du-an/index.html',
+    './dich-vu/',
+    './dich-vu/index.html',
+    './chung-nhan/',
+    './chung-nhan/index.html',
     './style.css',
     './modern.css',
     './app-redesign.css',
@@ -14,15 +20,14 @@ const APP_SHELL = [
     './assets/icon facebook.png',
     './assets/icon zalo.png',
     './assets/icon threads.png',
-    './assets/chatbot/minh-chatbot.png',
     './assets/QR-MINH BIO.png',
     './assets/projects/nabaden-app.png',
+    './assets/projects/mangcaubaden-app.jpg',
     './assets/projects/tayninh-app.png',
     './assets/projects/nuibaden-app.png',
     './assets/projects/natus-clean.png',
     './assets/projects/vicatra.jpg',
     './assets/projects/the-gioi-chay.webp',
-    './assets/projects/riviu-asia.jpg',
     './assets/projects/minh-asia.jpg',
     './assets/certificates/marketing-with-canva.png',
     './assets/certificates/canva-for-work.png',
@@ -58,10 +63,10 @@ self.addEventListener('fetch', (event) => {
             fetch(event.request)
                 .then((response) => {
                     const copy = response.clone();
-                    caches.open(CACHE_NAME).then((cache) => cache.put('./index.html', copy));
+                    caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
                     return response;
                 })
-                .catch(() => caches.match('./index.html'))
+                .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html')))
         );
         return;
     }

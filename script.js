@@ -108,65 +108,104 @@ document.addEventListener('DOMContentLoaded', () => {
     const appViews = [...document.querySelectorAll('[data-view]')];
     const validViews = new Set(appViews.map((view) => view.dataset.view));
 
-    function showAppView(requestedView, updateHistory = false) {
-        const viewName = validViews.has(requestedView) ? requestedView : 'home';
-
-        appViews.forEach((view) => {
-            const isActive = view.dataset.view === viewName;
-            view.classList.toggle('is-active', isActive);
-            view.setAttribute('aria-hidden', String(!isActive));
-        });
-
-        document.body.dataset.currentView = viewName;
-        document.querySelectorAll('[data-nav-view]').forEach((item) => {
-            item.classList.toggle('active', item.dataset.navView === viewName);
-        });
-
-        if (updateHistory && window.location.hash !== `#${viewName}`) {
-            window.history.pushState({ view: viewName }, '', `#${viewName}`);
+    // Support legacy hash redirection
+    const currentHash = (window.location.hash || '').toLowerCase();
+    if (currentHash === '#projects') {
+        window.location.replace('/du-an/');
+        return;
+    } else if (currentHash === '#services') {
+        window.location.replace('/dich-vu/');
+        return;
+    } else if (currentHash === '#certificates') {
+        window.location.replace('/chung-nhan/');
+        return;
+    } else if (currentHash === '#home') {
+        if (window.history.replaceState) {
+            window.history.replaceState(null, '', window.location.pathname);
         }
-
-        appContainer?.scrollTo({ top: 0, behavior: 'auto' });
     }
 
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-        link.addEventListener('click', (event) => {
-            const viewName = link.getAttribute('href').slice(1);
-            if (!validViews.has(viewName)) return;
-            event.preventDefault();
-            showAppView(viewName, true);
+    if (appViews.length > 1) {
+        function showAppView(requestedView, updateHistory = false) {
+            const viewName = validViews.has(requestedView) ? requestedView : 'home';
+
+            appViews.forEach((view) => {
+                const isActive = view.dataset.view === viewName;
+                view.classList.toggle('is-active', isActive);
+                view.setAttribute('aria-hidden', String(!isActive));
+            });
+
+            document.body.dataset.currentView = viewName;
+            document.querySelectorAll('[data-nav-view]').forEach((item) => {
+                item.classList.toggle('active', item.dataset.navView === viewName);
+            });
+
+            if (updateHistory && window.location.hash !== `#${viewName}`) {
+                window.history.pushState({ view: viewName }, '', `#${viewName}`);
+            }
+
+            appContainer?.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+            link.addEventListener('click', (event) => {
+                const targetHash = link.getAttribute('href');
+                if (targetHash === '#projects') {
+                    window.location.href = '/du-an/';
+                    return;
+                }
+                if (targetHash === '#services') {
+                    window.location.href = '/dich-vu/';
+                    return;
+                }
+                if (targetHash === '#certificates') {
+                    window.location.href = '/chung-nhan/';
+                    return;
+                }
+                if (targetHash === '#home') {
+                    window.location.href = '/';
+                    return;
+                }
+                const viewName = targetHash.slice(1);
+                if (!validViews.has(viewName)) return;
+                event.preventDefault();
+                showAppView(viewName, true);
+            });
         });
-    });
 
-    window.addEventListener('popstate', () => {
+        window.addEventListener('popstate', () => {
+            showAppView(window.location.hash.slice(1) || 'home');
+        });
+
         showAppView(window.location.hash.slice(1) || 'home');
-    });
-
-    showAppView(window.location.hash.slice(1) || 'home');
+    } else if (appViews.length === 1) {
+        appViews[0].classList.add('is-active');
+        appViews[0].setAttribute('aria-hidden', 'false');
+    }
 
     window.addEventListener('offline', () => showAppToast('Bạn đang ngoại tuyến. Nội dung đã lưu vẫn có thể xem.'));
     window.addEventListener('online', () => showAppToast('Đã kết nối lại Internet.'));
 
     function openPaymentModal() {
-        paymentModal.classList.add('active');
+        paymentModal?.classList.add('active');
         resetPaymentUI();
     }
 
     paymentOpen?.addEventListener('click', openPaymentModal);
 
-    paymentClose.addEventListener('click', () => {
-        paymentModal.classList.remove('active');
+    paymentClose?.addEventListener('click', () => {
+        paymentModal?.classList.remove('active');
         stopPaymentPolling();
     });
 
     function openEnterpriseModal() {
-        enterpriseModal.classList.add('active');
+        enterpriseModal?.classList.add('active');
     }
 
     enterpriseOpen?.addEventListener('click', openEnterpriseModal);
 
-    enterpriseClose.addEventListener('click', () => {
-        enterpriseModal.classList.remove('active');
+    enterpriseClose?.addEventListener('click', () => {
+        enterpriseModal?.classList.remove('active');
     });
 
     const serviceProducts = {
@@ -336,15 +375,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    startRegisterBtn.addEventListener('click', () => {
+    startRegisterBtn?.addEventListener('click', () => {
         showStep(2);
     });
 
-    backToBenefitsBtn.addEventListener('click', () => {
+    backToBenefitsBtn?.addEventListener('click', () => {
         showStep(1);
     });
 
-    groupLink.addEventListener('click', (e) => {
+    groupLink?.addEventListener('click', (e) => {
         if (groupLink.getAttribute('aria-disabled') === 'true') {
             e.preventDefault();
         }
@@ -711,10 +750,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- KIỂM TRA SĐT TRỰC TIẾP KHI NHẬP ---
     const phoneError = document.getElementById('phone-error');
-    zaloPhoneInput.addEventListener('input', async () => {
+    zaloPhoneInput?.addEventListener('input', async () => {
         const phone = normalizePhone(zaloPhoneInput.value);
         const requestId = ++phoneCheckRequest;
-        phoneError.style.display = 'none';
+        if (phoneError) phoneError.style.display = 'none';
         setConfirmButtonDisabled(false);
 
         if (phone.length >= 10) {
@@ -723,16 +762,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (requestId !== phoneCheckRequest) return;
 
                 if (exists) {
-                    phoneError.style.display = 'block';
+                    if (phoneError) phoneError.style.display = 'block';
                     setConfirmButtonDisabled(true);
                 }
             } catch (e) {}
         }
     });
 
-    confirmZaloBtn.addEventListener('click', async () => {
-        const name = document.getElementById('user-name').value.trim();
-        const phone = normalizePhone(zaloPhoneInput.value);
+    confirmZaloBtn?.addEventListener('click', async () => {
+        const name = document.getElementById('user-name')?.value.trim();
+        const phone = normalizePhone(zaloPhoneInput?.value || '');
         
         if (!name || phone.length < 10) {
             alert('Vui lòng nhập đầy đủ Họ tên và Số điện thoại hợp lệ!');
@@ -745,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Kiểm tra số điện thoại
             const exists = await checkPhoneExists(phone);
             if (exists) {
-                phoneError.style.display = 'block';
+                if (phoneError) phoneError.style.display = 'block';
                 setConfirmButtonDisabled(true, false);
                 return;
             }
@@ -759,7 +798,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => setConfirmButtonDisabled(false, false), 1000);
     });
 
-    retryPaymentBtn.addEventListener('click', () => {
+    retryPaymentBtn?.addEventListener('click', () => {
         if (!currentName || !currentPhone) {
             showInfoStep();
             return;
@@ -768,11 +807,11 @@ document.addEventListener('DOMContentLoaded', () => {
         createPaymentSession(currentName, currentPhone);
     });
 
-    editInfoBtn.addEventListener('click', () => {
+    editInfoBtn?.addEventListener('click', () => {
         showInfoStep();
     });
 
-    copyBtn.addEventListener('click', async () => {
+    copyBtn?.addEventListener('click', async () => {
         const text = copyText.innerText.trim();
 
         if (await copyToClipboard(text)) {
@@ -839,17 +878,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close on click outside
     window.addEventListener('click', (e) => {
-        if (e.target === paymentModal) {
+        if (paymentModal && e.target === paymentModal) {
             paymentModal.classList.remove('active');
             stopPaymentPolling();
         }
-        if (e.target === enterpriseModal) enterpriseModal.classList.remove('active');
-        if (e.target === certificateModal) closeCertificateModal();
-        if (e.target === cartModal) closeCartModal();
+        if (enterpriseModal && e.target === enterpriseModal) enterpriseModal.classList.remove('active');
+        if (certificateModal && e.target === certificateModal) closeCertificateModal();
+        if (cartModal && e.target === cartModal) closeCartModal();
     });
 
     // Share Logic
-    shareBtn.addEventListener('click', async (e) => {
+    shareBtn?.addEventListener('click', async (e) => {
         e.preventDefault();
         if (navigator.share) {
             try {
