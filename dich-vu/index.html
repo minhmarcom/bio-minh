@@ -87,7 +87,7 @@
 
     <link rel="stylesheet" href="/style.css?v=2015">
     <link rel="stylesheet" href="/modern.css?v=2015">
-    <link rel="stylesheet" href="/app-redesign.css?v=2016">
+    <link rel="stylesheet" href="/app-redesign.css?v=2017">
     <!-- Google Font: Be Vietnam Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -159,30 +159,45 @@
                 <div class="community-panel">
                     <div class="community-panel-heading">
                         <div>
-                            <span>Tham gia miễn phí</span>
-                            <h2>Chọn cộng đồng phù hợp</h2>
-                            <p>Kết nối, hỏi đáp và cập nhật kiến thức cùng MINH.</p>
+                            <span class="community-badge">
+                                <span class="badge-dot"></span>
+                                Tham gia miễn phí
+                            </span>
+                            <h2 class="community-title">Chọn cộng đồng phù hợp</h2>
+                            <p class="community-desc">Kết nối, hỏi đáp và cập nhật kiến thức cùng MINH.</p>
                         </div>
-                        <i data-lucide="users-round"></i>
+                        <div class="community-heading-icon" title="Cộng đồng">
+                            <i data-lucide="users-round"></i>
+                        </div>
                     </div>
                     <div class="community-links">
                         <a class="community-choice community-zalo" href="https://zalo.me/g/s7jxcab2lvaaqfnx6apl" target="_blank" rel="noopener noreferrer">
-                            <span class="community-choice-icon"><i data-lucide="message-circle"></i></span>
-                            <span class="community-choice-copy">
-                                <small>Zalo</small>
-                                <strong>Cộng đồng Học AI</strong>
-                                <em>Trao đổi nhanh và nhận cập nhật mới.</em>
-                            </span>
-                            <span class="community-choice-action">Tham gia <i data-lucide="arrow-up-right"></i></span>
+                            <div class="community-choice-media">
+                                <img src="/assets/icon zalo.png" alt="Zalo" class="community-brand-icon">
+                            </div>
+                            <div class="community-choice-copy">
+                                <span class="community-platform-tag tag-zalo">ZALO GROUP</span>
+                                <strong class="community-group-name">Cộng đồng Học AI</strong>
+                                <span class="community-group-desc">Trao đổi nhanh và nhận cập nhật mới.</span>
+                            </div>
+                            <div class="community-choice-action btn-zalo">
+                                <span>Tham gia</span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </div>
                         </a>
                         <a class="community-choice community-facebook" href="https://www.facebook.com/groups/2242526269439377" target="_blank" rel="noopener noreferrer">
-                            <span class="community-choice-icon"><i data-lucide="book-open"></i></span>
-                            <span class="community-choice-copy">
-                                <small>Facebook</small>
-                                <strong>Cộng đồng Thực chiến AI</strong>
-                                <em>Xem bài chia sẻ và thảo luận chuyên sâu.</em>
-                            </span>
-                            <span class="community-choice-action">Tham gia <i data-lucide="arrow-up-right"></i></span>
+                            <div class="community-choice-media">
+                                <img src="/assets/icon facebook.png" alt="Facebook" class="community-brand-icon">
+                            </div>
+                            <div class="community-choice-copy">
+                                <span class="community-platform-tag tag-fb">FACEBOOK GROUP</span>
+                                <strong class="community-group-name">Cộng đồng Thực chiến AI</strong>
+                                <span class="community-group-desc">Xem bài chia sẻ và thảo luận chuyên sâu.</span>
+                            </div>
+                            <div class="community-choice-action btn-fb">
+                                <span>Tham gia</span>
+                                <i data-lucide="arrow-up-right"></i>
+                            </div>
                         </a>
                     </div>
                 </div>
