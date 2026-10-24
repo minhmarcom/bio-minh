@@ -23,6 +23,7 @@ const APP_SHELL = [
     './assets/projects/vicatra.jpg',
     './assets/projects/the-gioi-chay.webp',
     './assets/projects/riviu-asia.jpg',
+    './assets/projects/minh-asia.jpg',
     './assets/certificates/marketing-with-canva.png',
     './assets/certificates/canva-for-work.png',
     './assets/certificates/human-centered-design.png',
