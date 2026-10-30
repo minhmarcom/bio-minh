@@ -42,7 +42,7 @@ body{background:var(--canvas);color:var(--ink)}
 .cta-person,.cta-copy,.cta-button{position:relative;z-index:1}.cta-person img{filter:saturate(.75);box-shadow:0 0 0 1px rgba(255,255,255,.55)}
 .cta-person small,.cta-copy p{color:rgba(255,255,255,.62)}.cta-copy>span{color:#c7a878}
 .cta-copy h2{font:italic 400 24px/1.2 Georgia,serif;letter-spacing:-.035em}.cta-button{min-height:48px;border-radius:999px;background:#fff;color:var(--ink)}
-.cta-phone{width:fit-content;margin-top:13px;display:inline-flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:700;letter-spacing:.02em;text-decoration:none}.cta-phone svg{width:14px;height:14px;color:#c7a878}
+.cta-phone,.cta-email{width:fit-content;margin-top:13px;display:inline-flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:700;letter-spacing:.02em;text-decoration:none}.cta-phone svg,.cta-email svg{width:14px;height:14px;color:#c7a878}
 
 /* Inner views */
 .services-section,.projects-feature,.certificates-section{min-height:calc(100dvh - 82px - env(safe-area-inset-bottom));padding:26px 16px 34px;background:var(--paper)}

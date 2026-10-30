@@ -17,9 +17,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const SHEET_GVIZ_URL = "https://docs.google.com/spreadsheets/d/1Vy7Qjc5M4x7y6p89L81OuTsUGsRPAEywI_8_2nmRzsQ/gviz/tq?gid=0";
     const EXPECTED_AMOUNT = 199000;
     const GROUP_URL = "https://zalo.me/g/o6nheqcgncsmefoyxtd1";
-    const ADMIN_URL = "https://zalo.me/0584556556";
+    const ADMIN_URL = atob("aHR0cHM6Ly96YWxvLm1lLzA1ODQ1NTY1NTY=");
     const PAYMENT_SUPPORT_DELAY_MS = 3 * 60 * 1000;
     // ------------------------------------------------
+
+    // Khởi tạo liên kết Zalo an toàn (bảo vệ thông tin cá nhân khỏi bot thu thập số điện thoại)
+    document.querySelectorAll('[data-zalo-link]').forEach((link) => {
+        link.href = ADMIN_URL;
+        link.target = '_blank';
+        link.rel = 'nofollow noopener noreferrer';
+    });
+    document.addEventListener('click', (e) => {
+        const zaloBtn = e.target.closest('[data-zalo-link]');
+        if (zaloBtn) {
+            e.preventDefault();
+            window.open(ADMIN_URL, '_blank', 'noopener,noreferrer');
+        }
+    });
 
     const qrOpen = document.getElementById('qr-open');
     const shareBtn = document.getElementById('share-btn');
@@ -923,11 +937,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'FN:Lâm Nhật Minh (MINH marcom)',
             'ORG:NHẬT MINH marcom',
             'TITLE:Marketing & AI Consultant',
-            'TEL;TYPE=CELL:+84584556556',
             'EMAIL;TYPE=INTERNET:hi@lnm.vn',
             'URL:https://lnm.vn/',
             'X-SOCIALPROFILE;TYPE=facebook:https://www.facebook.com/nhatminh1911/',
-            'X-SOCIALPROFILE;TYPE=zalo:https://zalo.me/0584556556',
             'NOTE:Marketing\, AI\, tự động hóa và phát triển sản phẩm số.',
             'END:VCARD'
         ].join('\r\n');
@@ -1214,9 +1226,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return 'Bạn có thể xem các dự án thực tế Minh đã thực hiện tại mục "Dự án". Minh chuyên phát triển landing page, web app và giải pháp AI.';
             }
             if (text.includes('zalo') || text.includes('sđt') || text.includes('điện thoại') || text.includes('liên hệ') || text.includes('gặp') || text.includes('gọi')) {
-                return 'Bạn có thể trao đổi trực tiếp với Minh qua Zalo: 0584556556 hoặc quét mã QR ở trang chủ để lưu danh thiếp điện thoại!';
+                return 'Bạn có thể trao đổi trực tiếp với Minh qua Zalo hoặc gửi email về hi@lnm.vn!';
             }
-            return 'Cảm ơn bạn đã nhắn tin! Bạn có thể xem các mục Dịch vụ, Dự án hoặc nhắn Zalo trực tiếp với Minh (0584556556) để được hỗ trợ nhanh nhất nhé!';
+            return 'Cảm ơn bạn đã nhắn tin! Bạn có thể xem các mục Dịch vụ, Dự án hoặc gửi tin nhắn qua Zalo/Email để được hỗ trợ nhanh nhất nhé!';
         }
 
         // Handle quick action buttons

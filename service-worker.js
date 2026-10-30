@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v34-multipage';
+const CACHE_NAME = 'minh-marcom-v35-privacy-update';
 const APP_SHELL = [
     './',
     './index.html',
