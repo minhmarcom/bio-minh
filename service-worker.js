@@ -1,4 +1,4 @@
-const CACHE_NAME = 'minh-marcom-v36-masterpiece';
+const CACHE_NAME = 'minh-marcom-v39-showcase-ready';
 const APP_SHELL = [
     './',
     './index.html',
