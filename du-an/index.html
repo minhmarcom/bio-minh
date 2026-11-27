@@ -139,15 +139,553 @@
     }
     </script>
 
-    <link rel="stylesheet" href="/style.css?v=2015">
-    <link rel="stylesheet" href="/modern.css?v=2015">
-    <link rel="stylesheet" href="/app-redesign.css?v=2018">
+    <link rel="stylesheet" href="/style.css?v=2019">
+    <link rel="stylesheet" href="/modern.css?v=2019">
+    <link rel="stylesheet" href="/app-redesign.css?v=2019">
     <!-- Google Font: Be Vietnam Pro -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="/assets/vendor/lucide.min.js"></script>
+
+    <!-- Scoped Masterpiece Styles for /du-an/ -->
+    <style>
+        /* Reset any jagged/sawtooth borders & force clean geometry */
+        body[data-page="du-an"] .project-card,
+        body[data-page="du-an"] .project-cta {
+            clip-path: none !important;
+            -webkit-clip-path: none !important;
+        }
+
+        body[data-page="du-an"] .footer-nav::before {
+            display: none !important;
+            content: none !important;
+        }
+
+        /* Topbar */
+        .topbar-back-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            color: #171816 !important;
+            text-decoration: none !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            padding: 7px 12px !important;
+            border-radius: 999px !important;
+            background: rgba(23, 24, 22, 0.05) !important;
+            border: 1px solid rgba(23, 24, 22, 0.08) !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .topbar-back-btn:hover {
+            background: rgba(23, 24, 22, 0.1) !important;
+            transform: translateX(-2px) !important;
+        }
+
+        .topbar-back-btn svg {
+            width: 15px !important;
+            height: 15px !important;
+        }
+
+        .topbar-title {
+            font-size: 14.5px !important;
+            font-weight: 800 !important;
+            color: #171816 !important;
+            letter-spacing: -0.01em !important;
+        }
+
+        .topbar-badge {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #8C6A36 !important;
+            background: #EFE8DC !important;
+            padding: 4px 10px !important;
+            border-radius: 999px !important;
+            letter-spacing: 0.02em !important;
+        }
+
+        /* Hero Header */
+        .projects-hero {
+            padding: 10px 4px 20px !important;
+        }
+
+        .projects-hero-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+            padding: 5px 13px !important;
+            background: #E8F5E9 !important;
+            border: 1px solid #A5D6A7 !important;
+            border-radius: 999px !important;
+            color: #1B5E20 !important;
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.02em !important;
+            margin-bottom: 12px !important;
+        }
+
+        .pulse-dot {
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
+            background: #2E7D32 !important;
+            box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.25) !important;
+            animation: pulseDot 2s infinite ease-in-out !important;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.7; }
+        }
+
+        .projects-hero-title {
+            font-size: clamp(23px, 5.8vw, 27px) !important;
+            font-weight: 800 !important;
+            color: #171816 !important;
+            line-height: 1.25 !important;
+            letter-spacing: -0.03em !important;
+            margin: 0 0 8px !important;
+        }
+
+        .projects-hero-desc {
+            font-size: 13px !important;
+            color: #71716B !important;
+            line-height: 1.55 !important;
+            margin: 0 0 16px !important;
+        }
+
+        /* Filter Tabs */
+        .project-filter-tabs {
+            display: flex !important;
+            gap: 6px !important;
+            overflow-x: auto !important;
+            padding-bottom: 4px !important;
+            margin-bottom: 18px !important;
+            scrollbar-width: none !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        .project-filter-tabs::-webkit-scrollbar {
+            display: none !important;
+        }
+
+        .filter-tab {
+            flex-shrink: 0 !important;
+            padding: 7px 14px !important;
+            border-radius: 999px !important;
+            border: 1px solid rgba(23, 24, 22, 0.12) !important;
+            background: #FCFBF7 !important;
+            color: #71716B !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .filter-tab:hover {
+            border-color: #A77C43 !important;
+            color: #171816 !important;
+        }
+
+        .filter-tab.is-active {
+            background: #171816 !important;
+            color: #FFFFFF !important;
+            border-color: #171816 !important;
+            box-shadow: 0 3px 10px rgba(23, 24, 22, 0.16) !important;
+        }
+
+        /* Single-Column Project Cards */
+        .project-list {
+            display: flex !important;
+            flex-direction: column !important;
+            grid-template-columns: none !important;
+            gap: 20px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .project-card {
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            border: 1px solid rgba(23, 24, 22, 0.09) !important;
+            border-radius: 20px !important;
+            background: #FFFFFF !important;
+            box-shadow: 0 4px 18px rgba(35, 31, 24, 0.04) !important;
+            text-decoration: none !important;
+            color: inherit !important;
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.24s ease !important;
+            position: relative !important;
+        }
+
+        .project-card:hover,
+        .project-card:focus-visible {
+            transform: translateY(-4px) !important;
+            border-color: rgba(167, 124, 67, 0.42) !important;
+            box-shadow: 0 16px 36px rgba(35, 31, 24, 0.11) !important;
+        }
+
+        .project-card[data-featured="true"] {
+            border: 1.5px solid rgba(167, 124, 67, 0.35) !important;
+        }
+
+        .project-card[data-featured="true"]::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3.5px;
+            background: linear-gradient(90deg, #A77C43 0%, #D4AF37 100%);
+            z-index: 5;
+        }
+
+        /* Media Frame */
+        .project-media-wrapper {
+            position: relative !important;
+            width: 100% !important;
+            aspect-ratio: 16 / 9.2 !important;
+            overflow: hidden !important;
+            background: #EAE6DE !important;
+        }
+
+        .project-media-wrapper .project-media {
+            width: 100% !important;
+            height: 100% !important;
+            aspect-ratio: unset !important;
+            background: transparent !important;
+        }
+
+        .project-media-wrapper .project-media img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            filter: none !important;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        .project-card:hover .project-media-wrapper .project-media img {
+            transform: scale(1.035) !important;
+        }
+
+        .media-overlay-tags {
+            position: absolute !important;
+            top: 12px !important;
+            left: 12px !important;
+            right: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+            pointer-events: none !important;
+            z-index: 3 !important;
+        }
+
+        .media-category-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 5px 11px !important;
+            border-radius: 999px !important;
+            background: rgba(23, 24, 22, 0.8) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(10px) !important;
+            color: #FFFFFF !important;
+            font-size: 10.5px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.02em !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+        }
+
+        .media-category-pill svg {
+            width: 12px !important;
+            height: 12px !important;
+            color: #FBBF24 !important;
+        }
+
+        .media-status-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 5px 10px !important;
+            border-radius: 999px !important;
+            background: rgba(255, 255, 255, 0.94) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            backdrop-filter: blur(8px) !important;
+            color: #15803D !important;
+            font-size: 10.5px !important;
+            font-weight: 700 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        .live-indicator {
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
+            background: #22C55E !important;
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35) !important;
+        }
+
+        /* Card Body */
+        .project-card .project-body {
+            padding: 18px 20px 18px !important;
+            background: #FFFFFF !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        .project-body-top {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+            margin-bottom: 6px !important;
+        }
+
+        .project-domain-chip {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            color: #A77C43 !important;
+        }
+
+        .project-domain-chip svg {
+            width: 13px !important;
+            height: 13px !important;
+        }
+
+        .project-order-tag {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            color: #8E8D87 !important;
+            letter-spacing: 0.04em !important;
+        }
+
+        .project-card .project-title {
+            font-size: 20px !important;
+            font-weight: 800 !important;
+            color: #171816 !important;
+            line-height: 1.3 !important;
+            letter-spacing: -0.025em !important;
+            margin: 2px 0 6px !important;
+        }
+
+        .project-card .project-description {
+            font-size: 13px !important;
+            color: #585953 !important;
+            line-height: 1.55 !important;
+            margin: 0 0 14px !important;
+        }
+
+        /* Tech Pills */
+        .project-tech-tags {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .tech-tag {
+            display: inline-block !important;
+            padding: 4px 9px !important;
+            background: #F4EFE6 !important;
+            border-radius: 7px !important;
+            color: #5F4F39 !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.01em !important;
+        }
+
+        /* Full-width Clickable CTA Link inside card */
+        .project-cta-link {
+            margin-top: auto !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 11px 16px !important;
+            border-radius: 12px !important;
+            background: #F9F8F5 !important;
+            border: 1px solid rgba(23, 24, 22, 0.08) !important;
+            color: #171816 !important;
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+            text-decoration: none !important;
+            transition: all 0.22s ease !important;
+        }
+
+        .project-cta-link span {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            color: #171816 !important;
+        }
+
+        .project-cta-link svg {
+            width: 14px !important;
+            height: 14px !important;
+            color: #A77C43 !important;
+            transition: transform 0.2s ease !important;
+        }
+
+        .project-card:hover .project-cta-link {
+            background: #171816 !important;
+            border-color: #171816 !important;
+            color: #FFFFFF !important;
+        }
+
+        .project-card:hover .project-cta-link span {
+            color: #FFFFFF !important;
+        }
+
+        .project-card:hover .project-cta-link svg {
+            color: #D4AF37 !important;
+            transform: translate(3px, -3px) !important;
+        }
+
+        /* Clean Luxury CTA Card */
+        .project-cta {
+            clip-path: none !important;
+            border-radius: 20px !important;
+            background: #171816 !important;
+            padding: 24px 20px !important;
+            margin-top: 24px !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .project-cta::after,
+        .project-cta::before {
+            display: none !important;
+            content: none !important;
+        }
+
+        .project-cta .cta-person {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .project-cta .cta-person img {
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: 50% !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .project-cta .cta-person strong {
+            display: block !important;
+            color: #FFFFFF !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+        }
+
+        .project-cta .cta-person small {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            color: #9CA3AF !important;
+            font-size: 11px !important;
+        }
+
+        .project-cta .cta-person small i {
+            display: inline-block !important;
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
+            background: #22C55E !important;
+        }
+
+        .project-cta .cta-copy span.cta-eyebrow {
+            display: block !important;
+            color: #D4AF37 !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.08em !important;
+            text-transform: uppercase !important;
+            margin-bottom: 6px !important;
+        }
+
+        .project-cta .cta-copy h2 {
+            font-size: 20px !important;
+            font-weight: 800 !important;
+            color: #FFFFFF !important;
+            line-height: 1.3 !important;
+            letter-spacing: -0.02em !important;
+            margin: 0 0 10px !important;
+            font-family: inherit !important;
+            font-style: normal !important;
+        }
+
+        .project-cta .cta-copy p {
+            color: #A1A1AA !important;
+            font-size: 13px !important;
+            line-height: 1.55 !important;
+            margin: 0 0 18px !important;
+        }
+
+        .cta-contacts-row {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 10px !important;
+        }
+
+        .cta-btn-link {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            padding: 13px 12px !important;
+            border-radius: 12px !important;
+            text-decoration: none !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .cta-btn-email {
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #FFFFFF !important;
+            border: 1px solid rgba(255, 255, 255, 0.14) !important;
+        }
+
+        .cta-btn-email:hover {
+            background: rgba(255, 255, 255, 0.16) !important;
+        }
+
+        .cta-btn-zalo {
+            background: #0068FF !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 4px 14px rgba(0, 104, 255, 0.3) !important;
+        }
+
+        .cta-btn-zalo:hover {
+            background: #0056D6 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .cta-btn-link svg {
+            width: 15px !important;
+            height: 15px !important;
+        }
+
+        /* Clean Bottom Navigation Bar */
+        body[data-page="du-an"] .footer-nav {
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 16px 16px 0 0 !important;
+            clip-path: none !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
+        }
+
+        body[data-page="du-an"] .nav-primary-badge {
+            display: none !important;
+        }
+    </style>
 </head>
 <body data-page="du-an">
     <div class="container" id="top">
@@ -175,22 +713,6 @@
                         Các nền tảng Web App, Thương mại số và Cổng thông tin do Lâm Nhật Minh trực tiếp thiết kế, phát triển và đưa vào vận hành thực tế.
                     </p>
 
-                    <!-- Quick Stats Grid -->
-                    <div class="projects-stats-grid">
-                        <div class="project-stat-item">
-                            <strong>07</strong>
-                            <small>Sản phẩm chạy thật</small>
-                        </div>
-                        <div class="project-stat-item">
-                            <strong>100%</strong>
-                            <small>Vibe Coding & AI</small>
-                        </div>
-                        <div class="project-stat-item">
-                            <strong>Real-time</strong>
-                            <small>Đang hoạt động</small>
-                        </div>
-                    </div>
-
                     <!-- Category Filter Tabs -->
                     <div class="project-filter-tabs" role="tablist" aria-label="Lọc theo phân loại">
                         <button class="filter-tab is-active" type="button" data-filter="all">Tất cả (07)</button>
@@ -200,7 +722,7 @@
                     </div>
                 </div>
 
-                <!-- Project List -->
+                <!-- Project List (Single-column, generous width) -->
                 <div class="project-list" id="project-list-container">
                     
                     <!-- 01. NABADEN (Featured) -->
@@ -230,11 +752,11 @@
                             </div>
                             <h2 class="project-title">NABADEN</h2>
                             <p class="project-description">
-                                Ứng dụng PWA giới thiệu sản phẩm, trải nghiệm và tin tức từ vùng mãng cầu Bà Đen chính gốc Tây Ninh.
+                                Ứng dụng PWA giới thiệu hệ sinh thái sản phẩm, trải nghiệm du lịch và tin tức vùng mãng cầu Bà Đen chính gốc Tây Ninh.
                             </p>
                             <div class="project-tech-tags">
                                 <span class="tech-tag">Web App PWA</span>
-                                <span class="tech-tag">Đặc sản OCOP</span>
+                                <span class="tech-tag">Bản đồ OCOP</span>
                                 <span class="tech-tag">Mobile First</span>
                             </div>
                             <a href="https://app.nabaden.vn" target="_blank" rel="noopener noreferrer" class="project-cta-link">
@@ -271,7 +793,7 @@
                             </div>
                             <h2 class="project-title">Mãng Cầu Bà Đen</h2>
                             <p class="project-description">
-                                Website thương hiệu, kiến thức sản phẩm và kết nối mua hàng mãng cầu Bà Đen Tây Ninh chính gốc.
+                                Website nhận diện thương hiệu đặc sản chỉ dẫn địa lý Tây Ninh, tối ưu SEO Google và kết nối đặt hàng trực tiếp.
                             </p>
                             <div class="project-tech-tags">
                                 <span class="tech-tag">Brand Website</span>
@@ -312,11 +834,11 @@
                             </div>
                             <h2 class="project-title">Núi Bà Đen</h2>
                             <p class="project-description">
-                                Ứng dụng đặt vé QR, xem lịch vận hành thời gian thực và cẩm nang khám phá các tuyến cáp treo Núi Bà Đen.
+                                Ứng dụng đặt vé QR online, xem lịch vận hành cáp treo thời gian thực và cẩm nang khám phá nóc nhà Nam Bộ.
                             </p>
                             <div class="project-tech-tags">
-                                <span class="tech-tag">Đặt vé QR</span>
-                                <span class="tech-tag">Lịch vận hành Realtime</span>
+                                <span class="tech-tag">Đặt vé QR Code</span>
+                                <span class="tech-tag">Lịch cáp Realtime</span>
                                 <span class="tech-tag">Du lịch số</span>
                             </div>
                             <a href="https://nuibaden.lnm.vn" target="_blank" rel="noopener noreferrer" class="project-cta-link">
@@ -335,7 +857,7 @@
                             <div class="media-overlay-tags">
                                 <span class="media-category-pill">
                                     <i data-lucide="sparkle"></i>
-                                    Landing Page
+                                    Landing Page Bán hàng
                                 </span>
                                 <span class="media-status-pill">
                                     <span class="live-indicator"></span>
@@ -353,12 +875,12 @@
                             </div>
                             <h2 class="project-title">NATUS CLEAN</h2>
                             <p class="project-description">
-                                Website giới thiệu sản phẩm tẩy đa năng NATUS CLEAN 10X và giải pháp làm sạch toàn diện cho gia đình.
+                                Website thương mại giới thiệu dòng sản phẩm tẩy đa năng 10X, tích hợp video trải nghiệm và tối ưu chuyển đổi đơn hàng.
                             </p>
                             <div class="project-tech-tags">
                                 <span class="tech-tag">High-converting Landing</span>
                                 <span class="tech-tag">Video Review</span>
-                                <span class="tech-tag">Tẩy rửa 10X</span>
+                                <span class="tech-tag">Đặt hàng nhanh</span>
                             </div>
                             <a href="https://natus.lnm.vn/" target="_blank" rel="noopener noreferrer" class="project-cta-link">
                                 <span>Xem trang sản phẩm</span>
@@ -376,7 +898,7 @@
                             <div class="media-overlay-tags">
                                 <span class="media-category-pill">
                                     <i data-lucide="trending-up"></i>
-                                    Xúc tiến B2B
+                                    Xúc tiến Thương mại
                                 </span>
                                 <span class="media-status-pill">
                                     <span class="live-indicator"></span>
@@ -394,7 +916,7 @@
                             </div>
                             <h2 class="project-title">VICATRA</h2>
                             <p class="project-description">
-                                Nền tảng xúc tiến thương mại hỗ trợ doanh nghiệp Việt đưa sản phẩm vào siêu thị và mạng lưới bán lẻ tại Campuchia.
+                                Nền tảng kết nối xúc tiến đưa hàng Việt Nam thâm nhập mạng lưới siêu thị, nhà phân phối và đại lý bán lẻ tại Campuchia.
                             </p>
                             <div class="project-tech-tags">
                                 <span class="tech-tag">Nền tảng B2B</span>
@@ -435,11 +957,11 @@
                             </div>
                             <h2 class="project-title">Thế Giới Chay x VICATRA</h2>
                             <p class="project-description">
-                                Catalog sản phẩm chay Việt phục vụ giới thiệu sản phẩm, kết nối kênh bán lẻ và tiếp nhận yêu cầu báo giá sỉ.
+                                Catalog điện tử giới thiệu toàn diện các dòng sản phẩm chay Việt Nam xuất khẩu, phục vụ đối tác quốc tế và báo giá sỉ.
                             </p>
                             <div class="project-tech-tags">
-                                <span class="tech-tag">Digital Catalog</span>
-                                <span class="tech-tag">Sản phẩm chay Việt</span>
+                                <span class="tech-tag">E-Catalog B2B</span>
+                                <span class="tech-tag">Thực phẩm chay Việt</span>
                                 <span class="tech-tag">Báo giá sỉ</span>
                             </div>
                             <a href="https://vicatra.com/the-gioi-chay" target="_blank" rel="noopener noreferrer" class="project-cta-link">
@@ -476,12 +998,12 @@
                             </div>
                             <h2 class="project-title">MINH.ASIA</h2>
                             <p class="project-description">
-                                Nền tảng booking voucher du lịch, vé cáp treo, khu vui chơi, show diễn và tour trải nghiệm trên toàn quốc.
+                                Nền tảng thương mại dịch vụ booking vé cáp treo, khu vui chơi Sun World, VinWonders, show diễn và tour trải nghiệm toàn quốc.
                             </p>
                             <div class="project-tech-tags">
-                                <span class="tech-tag">Booking Voucher</span>
-                                <span class="tech-tag">Vé cáp treo toàn quốc</span>
-                                <span class="tech-tag">Tour trải nghiệm</span>
+                                <span class="tech-tag">Voucher du lịch</span>
+                                <span class="tech-tag">Vé vui chơi toàn quốc</span>
+                                <span class="tech-tag">Thanh toán QR</span>
                             </div>
                             <a href="https://minh.asia" target="_blank" rel="noopener noreferrer" class="project-cta-link">
                                 <span>Trải nghiệm đặt vé</span>
@@ -493,7 +1015,7 @@
                 </div>
 
                 <!-- Bridge to Services -->
-                <a class="section-bridge" href="/dich-vu/" style="margin-top: 22px;">
+                <a class="section-bridge" href="/dich-vu/" style="margin-top: 24px;">
                     <span>
                         <small>Bạn muốn xây dựng sản phẩm như thế này?</small>
                         <strong>Xem dịch vụ & giải pháp triển khai AI, Web App</strong>
@@ -502,28 +1024,30 @@
                 </a>
             </section>
 
-            <!-- Project CTA -->
-            <section class="project-cta app-view is-active" aria-labelledby="project-cta-title">
+            <!-- Luxury Clean Project CTA -->
+            <section class="project-cta" aria-labelledby="project-cta-title">
                 <div class="cta-person">
                     <img src="/assets/avatar.png" alt="Lâm Nhật Minh">
-                    <span>
+                    <div>
                         <strong>Lâm Nhật Minh</strong>
                         <small><i></i> Thường phản hồi trong ngày</small>
-                    </span>
+                    </div>
                 </div>
                 <div class="cta-copy">
-                    <span>Có một ý tưởng cần người cùng làm?</span>
-                    <h2 id="project-cta-title">Mình cùng trao đổi về điều bạn đang muốn thực hiện.</h2>
-                    <p>Chia sẻ nhu cầu của bạn về website, Marketing, AI hoặc tự động hóa. Minh sẽ phản hồi bằng một hướng đi cụ thể.</p>
-                    <a class="cta-email" href="mailto:hi@lnm.vn" aria-label="Gửi email cho Lâm Nhật Minh qua hi@lnm.vn">
-                        <i data-lucide="mail"></i>
-                        <span>hi@lnm.vn</span>
-                    </a>
+                    <span class="cta-eyebrow">Khởi tạo dự án cùng MINH</span>
+                    <h2 id="project-cta-title">Cùng trao đổi về ý tưởng bạn đang muốn thực hiện.</h2>
+                    <p>Chia sẻ nhu cầu của bạn về website, Marketing, AI hoặc tự động hóa. Minh sẽ phản hồi bằng một giải pháp thực tế.</p>
+                    <div class="cta-contacts-row">
+                        <a class="cta-btn-link cta-btn-email" href="mailto:hi@lnm.vn" aria-label="Gửi email cho Lâm Nhật Minh qua hi@lnm.vn">
+                            <i data-lucide="mail"></i>
+                            <span>hi@lnm.vn</span>
+                        </a>
+                        <a href="#" data-zalo-link target="_blank" rel="nofollow noopener noreferrer" data-nosnippet class="cta-btn-link cta-btn-zalo">
+                            <i data-lucide="message-circle"></i>
+                            <span>Nhắn qua Zalo</span>
+                        </a>
+                    </div>
                 </div>
-                <a href="#" data-zalo-link target="_blank" rel="nofollow noopener noreferrer" data-nosnippet class="cta-button">
-                    <span>Nhắn Minh qua Zalo</span>
-                    <i data-lucide="message-circle"></i>
-                </a>
             </section>
         </main>
 
@@ -542,7 +1066,6 @@
             <button class="nav-item qr-btn" id="qr-open" type="button" aria-label="Lưu danh thiếp MINH marcom">
                 <span class="nav-primary-icon">
                     <i data-lucide="qr-code"></i>
-                    <i data-lucide="plus" class="nav-primary-badge"></i>
                 </span>
                 <span>Danh thiếp</span>
             </button>
