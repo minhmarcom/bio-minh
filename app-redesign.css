@@ -777,3 +777,417 @@ body {
   }
 }
 
+/* ================================================================
+   Enhanced Projects Showcase Page (/du-an/)
+   ================================================================ */
+
+/* Topbar enhancements */
+.topbar-back-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  color: var(--ink) !important;
+  text-decoration: none !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  padding: 6px 11px !important;
+  border-radius: 999px !important;
+  background: rgba(23, 24, 22, 0.06) !important;
+  transition: all 0.2s ease !important;
+}
+
+.topbar-back-btn:hover {
+  background: rgba(23, 24, 22, 0.12) !important;
+  transform: translateX(-2px) !important;
+}
+
+.topbar-back-btn svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.topbar-title {
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+}
+
+.topbar-badge {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--accent) !important;
+  background: var(--soft) !important;
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* Hero Section */
+.projects-hero {
+  padding: 10px 2px 18px !important;
+}
+
+.projects-hero-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 5px 12px !important;
+  background: #E8F5E9 !important;
+  border: 1px solid #A5D6A7 !important;
+  border-radius: 999px !important;
+  color: #1B5E20 !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  margin-bottom: 12px !important;
+}
+
+.pulse-dot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #2E7D32 !important;
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.25) !important;
+  animation: pulseDot 2s infinite ease-in-out !important;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.7; }
+}
+
+.projects-hero-title {
+  font-size: clamp(23px, 5.8vw, 27px) !important;
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.03em !important;
+  margin: 0 0 8px !important;
+}
+
+.projects-hero-desc {
+  font-size: 13px !important;
+  color: var(--muted) !important;
+  line-height: 1.55 !important;
+  margin: 0 0 16px !important;
+}
+
+/* Quick Stats Grid */
+.projects-stats-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 8px !important;
+  margin-bottom: 18px !important;
+}
+
+.project-stat-item {
+  background: var(--card) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 12px !important;
+  padding: 10px 6px !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  box-shadow: 0 2px 6px rgba(35, 31, 24, 0.03) !important;
+}
+
+.project-stat-item strong {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+  letter-spacing: -0.02em !important;
+}
+
+.project-stat-item small {
+  font-size: 10px !important;
+  color: var(--muted) !important;
+  font-weight: 500 !important;
+}
+
+/* Filter Tabs */
+.project-filter-tabs {
+  display: flex !important;
+  gap: 6px !important;
+  overflow-x: auto !important;
+  padding-bottom: 4px !important;
+  margin-bottom: 16px !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.project-filter-tabs::-webkit-scrollbar {
+  display: none !important;
+}
+
+.filter-tab {
+  flex-shrink: 0 !important;
+  padding: 7px 13px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--line) !important;
+  background: var(--card) !important;
+  color: var(--muted) !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.filter-tab:hover {
+  border-color: var(--accent) !important;
+  color: var(--ink) !important;
+}
+
+.filter-tab.is-active {
+  background: var(--ink) !important;
+  color: #FFFFFF !important;
+  border-color: var(--ink) !important;
+  box-shadow: 0 3px 10px rgba(23, 24, 22, 0.16) !important;
+}
+
+/* Redesigned Project Cards */
+.project-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+.project-card {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 18px !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(35, 31, 24, 0.05) !important;
+  clip-path: none !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.24s ease !important;
+  position: relative !important;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  transform: translateY(-4px) !important;
+  border-color: rgba(167, 124, 67, 0.42) !important;
+  box-shadow: 0 16px 36px rgba(35, 31, 24, 0.11) !important;
+}
+
+.project-card[data-featured="true"] {
+  border: 1.5px solid rgba(167, 124, 67, 0.35) !important;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FCFAF6 100%) !important;
+}
+
+.project-card[data-featured="true"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent) 0%, #D4AF37 100%);
+  z-index: 5;
+}
+
+/* Media wrapper & overlays */
+.project-media-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 16 / 9.2 !important;
+  overflow: hidden !important;
+  background: #EAE6DE !important;
+}
+
+.project-media-wrapper .project-media {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: unset !important;
+  background: transparent !important;
+}
+
+.project-media-wrapper .project-media img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  filter: saturate(0.96) !important;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease !important;
+}
+
+.project-card:hover .project-media-wrapper .project-media img {
+  transform: scale(1.035) !important;
+  filter: saturate(1.04) contrast(1.02) !important;
+}
+
+.media-overlay-tags {
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  right: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  pointer-events: none !important;
+  z-index: 3 !important;
+}
+
+.media-category-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 4px 10px !important;
+  border-radius: 999px !important;
+  background: rgba(23, 24, 22, 0.78) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  color: #FFFFFF !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18) !important;
+}
+
+.media-category-pill svg {
+  width: 11px !important;
+  height: 11px !important;
+  color: #FBBF24 !important;
+}
+
+.media-status-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 4px 9px !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(8px) !important;
+  color: #15803D !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+}
+
+.live-indicator {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #22C55E !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35) !important;
+}
+
+/* Card Body */
+.project-card .project-body {
+  padding: 16px 18px 16px !important;
+  background: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.project-body-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  margin-bottom: 6px !important;
+}
+
+.project-domain-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  color: var(--accent) !important;
+}
+
+.project-domain-chip svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.project-order-tag {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  color: var(--muted) !important;
+  letter-spacing: 0.04em !important;
+}
+
+.project-card .project-title {
+  font-size: 18.5px !important;
+  font-weight: 800 !important;
+  color: var(--ink) !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.02em !important;
+  margin: 0 0 6px !important;
+}
+
+.project-card .project-description {
+  font-size: 12.5px !important;
+  color: #585953 !important;
+  line-height: 1.55 !important;
+  margin: 0 0 12px !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+/* Highlights / Technology pills */
+.project-tech-tags {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+  margin-bottom: 14px !important;
+}
+
+.tech-tag {
+  display: inline-block !important;
+  padding: 3px 8px !important;
+  background: var(--soft) !important;
+  border-radius: 6px !important;
+  color: #5F4F39 !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* CTA Link inside card */
+.project-cta-link {
+  margin-top: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-top: 12px !important;
+  border-top: 1px solid var(--line) !important;
+  color: var(--ink) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+}
+
+.project-cta-link span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  color: var(--ink) !important;
+}
+
+.project-cta-link svg {
+  width: 14px !important;
+  height: 14px !important;
+  color: var(--accent) !important;
+  transition: transform 0.2s ease !important;
+}
+
+.project-card:hover .project-cta-link {
+  color: var(--accent) !important;
+}
+
+.project-card:hover .project-cta-link svg {
+  transform: translate(3px, -3px) !important;
+  color: var(--ink) !important;
+}
+
+
